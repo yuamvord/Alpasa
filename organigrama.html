@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organigrama Interactivo ALPASA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        alpasa: {
+                            blue: '#0F2C55', 
+                            green: '#4CAF50',
+                            light: '#F0F4F8'
+                        }
+                    },
+                    cursor: {
+                        'grab': 'grab',
+                        'grabbing': 'grabbing',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* --- ESTILOS DEL ÁRBOL --- */
+        .tree {
+            transform-origin: top center;
+            transition: transform 0.2s ease-out;
+            display: inline-block;
+            min-width: 100%;
+            padding-bottom: 100px;
+        }
+
+        .tree ul {
+            padding-top: 20px; 
+            position: relative;
+            display: flex; 
+            justify-content: center;
+            transition: all 0.5s ease-in-out;
+            transform-origin: top center;
+            opacity: 1;
+            transform: scaleY(1);
+            max-height: 2000px;
+            overflow: visible;
+        }
+
+        .tree ul.collapsed {
+            opacity: 0;
+            transform: scaleY(0);
+            max-height: 0;
+            padding-top: 0;
+            overflow: hidden;
+        }
+
+        .tree li {
+            float: left; text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+            transition: all 0.5s;
+        }
+
+        .tree li::before, .tree li::after {
+            content: ''; position: absolute; top: 0; right: 50%;
+            border-top: 2px solid #ccc; width: 50%; height: 20px;
+            transition: all 0.5s;
+        }
+        .tree li::after { right: auto; left: 50%; border-left: 2px solid #ccc; }
+        .tree li:only-child::after, .tree li:only-child::before { display: none; }
+        .tree li:only-child { padding-top: 0; }
+        .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+        .tree li:last-child::before{ border-right: 2px solid #ccc; border-radius: 0 5px 0 0; }
+        .tree li:first-child::after{ border-radius: 5px 0 0 0; }
+        
+        .tree ul::before {
+            content: ''; position: absolute; top: 0; left: 50%;
+            border-left: 2px solid #ccc; width: 0; height: 20px;
+            transition: all 0.5s;
+        }
+
+        .tree ul.collapsed::before { display: none; }
+
+        /* --- NODOS --- */
+        .node {
+            display: inline-block; padding: 10px 15px;
+            text-decoration: none; color: #333; font-size: 12px;
+            background: white; border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative; z-index: 10;
+            min-width: 140px; border-top: 4px solid #ccc;
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.15);
+            z-index: 20;
+        }
+
+        .node.has-hidden-children::after {
+            content: '+';
+            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+            background: #4CAF50; color: white;
+            width: 20px; height: 20px; border-radius: 50%;
+            font-size: 14px; line-height: 20px; font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(3px); }
+        }
+
+        /* NIVELES JERARQUICOS */
+        /* Nivel 1: Director y Gerente General (Más grandes) */
+        .level-1 { 
+            border-top-color: #0F2C55; 
+            background: #0F2C55; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 16px; /* Letra más grande */
+            padding: 15px 25px; /* Tarjeta más grande */
+            border-radius: 10px;
+        }
+        
+        .level-2 { border-top-color: #4CAF50; border-top-width: 4px; font-weight: bold; }
+        .level-3 { border-top-color: #0F2C55; border-top-width: 2px; }
+        .staff { border-style: dashed; border-color: #999; }
+
+        #drag-container { cursor: grab; overflow: hidden; }
+        #drag-container.active { cursor: grabbing; }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col overflow-hidden">
+
+    <div class="bg-white shadow-sm p-4 z-20 flex justify-between items-center relative shrink-0">
+        <div class="flex items-center gap-4">
+            <img src="img/Alpasa-Logo.png" alt="Logo ALPASA" class="h-20 w-auto">
+            <div>
+                <h1 class="text-xl font-bold text-alpasa-blue uppercase hidden md:block">Organigrama General</h1>
+                <p class="text-xs text-gray-500">ALPASA - Almacenadora del País, S.A.</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+            <button onclick="expandAll()" class="px-3 py-1 text-xs font-bold text-alpasa-blue hover:bg-white rounded transition">Expandir Todo</button>
+            <div class="w-px h-6 bg-gray-300 mx-1"></div>
+            <button onclick="zoom(-0.1)" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-minus"></i></button>
+            <span class="text-xs font-mono text-gray-500 w-12 text-center" id="zoom-level">100%</span>
+            <button onclick="zoom(0.1)" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-plus"></i></button>
+            <button onclick="resetView()" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-arrows-out-cardinal"></i></button>
+        </div>
+    </div>
+
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-alpasa-blue/90 text-white px-5 py-2 rounded-full text-xs shadow-lg pointer-events-none z-30 backdrop-blur-sm flex items-center gap-3">
+        <span><i class="ph ph-hand-grabbing mr-1"></i> Arrastrar</span>
+        <span class="w-px h-3 bg-white/30"></span>
+        <span><i class="ph ph-mouse-left-click mr-1"></i> Click en puesto para ocultar/ver</span>
+    </div>
+
+    <div id="drag-container" class="flex-1 w-full h-full relative bg-gray-50">
+        <div id="tree-content" class="tree p-20">
+            <ul>
+                <li>
+                    <div class="node level-1 shadow-xl" onclick="toggleNode(this)">
+                        <div class="uppercase tracking-widest">DIRECTOR EJECUTIVO</div>
+                    </div>
+                    
+                    <ul>
+                         <li>
+                            <div class="node staff bg-gray-50">
+                                <span class="text-xs text-gray-500 block">Staff</span>
+                                Asistente Dirección
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <div class="node level-1 bg-alpasa-blue shadow-xl" onclick="toggleNode(this)">
+                                <div class="uppercase tracking-widest">GERENCIA GENERAL</div>
+                            </div>
+
+                            <ul>
+                                <li>
+                                    <div class="node staff">
+                                        <span class="text-xs text-gray-500 block">Staff</span>
+                                        Asesor Legal
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Gerencia de<br>Sistemas</div>
+                                    <ul>
+                                        <li>
+                                            <div class="node level-3" onclick="toggleNode(this)">Analista de<br>Sistemas</div>
+                                            <ul>
+                                                <li><div class="node">Técnico de<br>Sistemas</div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Gerencia<br>Mercadeo</div>
+                                    <ul>
+                                        <li><div class="node level-3">Promotor de<br>Mercadeo</div></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Gerencia<br>Maquila</div>
+                                    <ul>
+                                        <li><div class="node level-3">Supervisor<br>Riesgos</div></li>
+                                        <li>
+                                            <div class="node level-3" onclick="toggleNode(this)">Supervisora<br>Maquila</div>
+                                            <ul>
+                                                <li><div class="node">Auxiliar Maquila</div></li>
+                                                <li><div class="node">Inspectores</div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Contadora<br>General</div>
+                                    <ul>
+                                        <li>
+                                            <div class="node level-3" onclick="toggleNode(this)">Encargada<br>Cobros/Compras</div>
+                                            <ul>
+                                                <li>
+                                                    <div class="node level-3" onclick="toggleNode(this)">Auxiliar<br>Contabilidad</div>
+                                                    <ul>
+                                                        <li><div class="node">Mensajero</div></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Gerencia<br>Admin.</div>
+                                    <ul>
+                                        <li>
+                                            <div class="node level-3" onclick="toggleNode(this)">Asistente RRHH</div>
+                                            <ul>
+                                                <li><div class="node level-3">Recepción</div></li>
+                                                <li><div class="node level-3">Conserje</div></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Gerencia<br>Operaciones</div>
+                                    <ul>
+                                        <li>
+                                            <div class="node level-3 bg-green-50" onclick="toggleNode(this)">Jefe Import.<br>y Depósitos</div>
+                                            <ul><li><div class="node">Auxiliar Imp.</div></li></ul>
+                                        </li>
+                                        <li>
+                                            <div class="node level-3 bg-green-50" onclick="toggleNode(this)">Jefe de<br>Operaciones</div>
+                                            <ul>
+                                                <li>
+                                                    <div class="node" onclick="toggleNode(this)">Supervisor<br>Operaciones</div>
+                                                    <ul>
+                                                        <li><div class="node text-[10px]">Auxiliares de<br>Operaciones<br>(Montacarguistas)</div></li>
+                                                        <li><div class="node">Aux. Admin.</div></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Jefe de<br>Proyectos</div>
+                                    <ul>
+                                        <li><div class="node level-3">Auxiliar Proy.</div></li>
+                                        <li><div class="node level-3">Guardián</div></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Jefe Taller y<br>Mantenimiento</div>
+                                    <ul><li><div class="node level-3">Técnico Taller</div></li></ul>
+                                </li>
+
+                                <li>
+                                    <div class="node level-2" onclick="toggleNode(this)">Jefe Invent.<br>y Cobros</div>
+                                    <ul>
+                                        <li><div class="node level-3">Auxiliar Invent.</div></li>
+                                        <li><div class="node level-3">Digitador</div></li>
+                                    </ul>
+                                </li>
+
+                                <li><div class="node level-2 border-alpasa-green">Gerente<br>Sostenibilidad</div></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DE COLAPSAR / EXPANDIR ---
+        function toggleNode(element) {
+            const nextUl = element.parentElement.querySelector('ul');
+            if (nextUl) {
+                nextUl.classList.toggle('collapsed');
+                element.classList.toggle('has-hidden-children');
+            }
+        }
+
+        function expandAll() {
+            const allUls = document.querySelectorAll('.tree ul');
+            const allNodes = document.querySelectorAll('.node');
+            allUls.forEach(ul => ul.classList.remove('collapsed'));
+            allNodes.forEach(node => node.classList.remove('has-hidden-children'));
+        }
+
+        // --- LÓGICA DE ZOOM Y DRAG ---
+        const slider = document.getElementById('drag-container');
+        const content = document.getElementById('tree-content');
+        let isDown = false;
+        let startX, startY, scrollLeft, scrollTop;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            startY = e.pageY - slider.offsetTop;
+            scrollLeft = slider.scrollLeft;
+            scrollTop = slider.scrollTop;
+        });
+        slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
+        slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const y = e.pageY - slider.offsetTop;
+            const walkX = (x - startX) * 1; 
+            const walkY = (y - startY) * 1;
+            slider.scrollLeft = scrollLeft - walkX;
+            slider.scrollTop = scrollTop - walkY;
+        });
+
+        let scale = 1;
+        function zoom(direction) {
+            scale += direction;
+            if (scale < 0.2) scale = 0.2;
+            if (scale > 2) scale = 2;
+            applyTransform();
+        }
+        function resetView() {
+            scale = 1;
+            applyTransform();
+            slider.scrollLeft = (content.scrollWidth - slider.clientWidth) / 2;
+            slider.scrollTop = 0;
+            expandAll();
+        }
+        function applyTransform() {
+            content.style.transform = `scale(${scale})`;
+            document.getElementById('zoom-level').innerText = Math.round(scale * 100) + '%';
+            if(scale < 1) {
+                content.style.width = `${100 / scale}%`;
+            } else {
+                content.style.width = 'auto';
+            }
+        }
+        window.onload = function() { resetView(); }
+    </script>
+</body>
+</html>
