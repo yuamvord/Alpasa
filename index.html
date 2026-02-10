@@ -28,7 +28,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animaciones para la transición del modal */
         .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
         .slide-out-left { animation: slideOutLeft 0.3s ease-in-out forwards; }
         .slide-in-right { animation: slideInRight 0.3s ease-in-out forwards; }
@@ -165,9 +164,12 @@
                 <h3 class="text-2xl font-bold text-alpasa-green text-center uppercase mb-8">Próximos Eventos y Avisos</h3>
                 <div class="flex flex-col md:flex-row gap-6 justify-center">
                     <div class="flex-1 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
-                        <img src="image_118019.jpg" alt="Cumpleaños Enero" class="w-full h-full object-cover">
+                        <img src="https://drive.google.com/uc?export=view&id=1XyZq..." 
+                             alt="Imagen desde Google Drive" 
+                             class="w-full h-full object-cover">
                     </div>
                 </div>
+                <p class="text-center text-xs text-gray-400 mt-2 italic">* Esta imagen se actualiza automáticamente desde la nube.</p>
             </section>
 
             <section>
@@ -181,12 +183,10 @@
                         <i class="ph-fill ph-desktop text-5xl text-alpasa-blue group-hover:scale-110 transition"></i>
                         <span class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight">Solicitudes<br>IT</span>
                     </button>
-                    
                     <button onclick="openForm('RRHH')" class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
                         <i class="ph-fill ph-users-three text-5xl text-alpasa-blue group-hover:scale-110 transition"></i>
                         <span class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight">Solicitudes<br>RRHH</span>
                     </button>
-
                     <button onclick="openForm('Contraloria')" class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
                         <i class="ph-fill ph-currency-dollar text-5xl text-alpasa-blue group-hover:scale-110 transition"></i>
                         <span class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight">Solicitudes<br>Contraloría</span>
@@ -205,35 +205,14 @@
                 </div>
             </section>
 
-            <section class="bg-gray-50 rounded-2xl p-8 border border-gray-100 text-center">
-                <h3 class="text-2xl font-bold text-alpasa-green uppercase mb-6">Calidad del Aire en Oficinas de Guatemala</h3>
-                <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 text-left">
-                    <p class="text-sm text-gray-600 flex-1">
-                        Hemos instalado un medidor de calidad del aire...
-                        <br><br>
-                        <a href="#" class="text-blue-600 underline">Leer la nota aquí.</a>
-                    </p>
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex-1 w-full max-w-sm">
-                        <div class="text-center border-b border-gray-100 pb-2 mb-3">
-                            <p class="text-xs text-gray-500">Zona 10 - Bioproyectos</p>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <div class="bg-green-500 text-white p-3 rounded-lg text-center min-w-[80px]">
-                                <span class="block text-2xl font-bold">40</span>
-                                <span class="text-[10px]">US AQI+</span>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-gray-500">PM2.5 µg/m³ <span class="text-green-600 font-bold">● 7.2</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <section class="w-full shadow-sm rounded-2xl overflow-hidden border border-gray-100 mt-8 mb-4 hover:shadow-md transition duration-300">
+                <img src="img/epp.jpeg" alt="Banner Informativo" class="w-full h-auto object-cover">
             </section>
 
             <section class="border-t-4 border-gray-100 pt-10 pb-10 text-center">
                 <h3 class="text-xl font-bold text-alpasa-green uppercase mb-8">Página de la Empresa</h3>
                 <a href="https://www.alpasa.com.gt" target="_blank" class="inline-block hover:scale-105 transition duration-300">
-                    <img src="WhatsApp Image 2026-01-29 at 12.10.54 PM.jpeg" alt="Ir a ALPASA" class="h-24 w-auto object-contain">
+                    <img src="img/Alpasa-Logo.png" alt="Ir a ALPASA" class="h-24 w-auto object-contain">
                 </a>
             </section>
         </div>
@@ -241,92 +220,45 @@
 
     <dialog id="formModal" class="p-0 rounded-xl shadow-2xl backdrop:bg-alpasa-blue/80 w-full md:w-3/4 max-w-5xl h-[90vh] fade-in">
         <div class="flex flex-col h-full bg-white">
-            
             <div class="bg-alpasa-blue text-white px-6 py-4 flex justify-between items-center shrink-0">
                 <div class="flex items-center gap-3">
                     <button id="backButton" onclick="backToMenu()" class="hidden hover:bg-white/20 rounded-full p-1 transition" title="Volver al menú">
                         <i class="ph ph-arrow-left text-xl"></i>
                     </button>
-                    
                     <i class="ph ph-google-logo text-xl"></i>
                     <h3 id="modalTitle" class="font-bold text-lg">Formulario</h3>
                 </div>
                 <button onclick="closeModal()" class="hover:bg-white/20 rounded-full p-2 transition"><i class="ph ph-x text-xl"></i></button>
             </div>
-
             <div class="flex-1 bg-gray-50 overflow-hidden relative">
-                
                 <div id="selectionMenu" class="hidden w-full h-full flex-col gap-3 overflow-y-auto p-6 md:p-10">
                     <p class="text-gray-500 mb-4 font-medium text-sm">Seleccione el tipo de solicitud que desea realizar:</p>
-                    
                     <div class="grid md:grid-cols-2 gap-4">
                         <button onclick="loadRRHHForm('Vacaciones')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-blue-50 text-alpasa-blue flex items-center justify-center text-xl"><i class="ph-fill ph-airplane-tilt"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Vacaciones</h4>
-                                    <p class="text-xs text-gray-500">Solicitud / Justificación</p>
-                                </div>
-                            </div>
-                            <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-blue-50 text-alpasa-blue flex items-center justify-center text-xl"><i class="ph-fill ph-airplane-tilt"></i></div><div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Vacaciones</h4><p class="text-xs text-gray-500">Solicitud / Justificación</p></div></div><i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
                         </button>
-
                         <button onclick="loadRRHHForm('Requerimientos')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-green-50 text-alpasa-green flex items-center justify-center text-xl"><i class="ph-fill ph-files"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Requerimientos</h4>
-                                    <p class="text-xs text-gray-500">Constancias, cartas, etc.</p>
-                                </div>
-                            </div>
-                            <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-green-50 text-alpasa-green flex items-center justify-center text-xl"><i class="ph-fill ph-files"></i></div><div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Requerimientos</h4><p class="text-xs text-gray-500">Constancias, cartas, etc.</p></div></div><i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
                         </button>
-
                         <button onclick="loadRRHHForm('Consulta')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-xl"><i class="ph-fill ph-stethoscope"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Consulta Médica</h4>
-                                    <p class="text-xs text-gray-500">Doctor de la Empresa</p>
-                                </div>
-                            </div>
-                            <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-xl"><i class="ph-fill ph-stethoscope"></i></div><div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Consulta Médica</h4><p class="text-xs text-gray-500">Doctor de la Empresa</p></div></div><i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
                         </button>
-
                         <button onclick="loadRRHHForm('Ausencias')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-xl"><i class="ph-fill ph-house-line"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Ausencias / Reposo</h4>
-                                    <p class="text-xs text-gray-500">Registro por enfermedad</p>
-                                </div>
-                            </div>
-                            <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-xl"><i class="ph-fill ph-house-line"></i></div><div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Ausencias / Reposo</h4><p class="text-xs text-gray-500">Registro por enfermedad</p></div></div><i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
                         </button>
-
                         <button onclick="loadRRHHForm('CitaMedica')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left md:col-span-2">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center text-xl"><i class="ph-fill ph-calendar-check"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Cita Médica Programada</h4>
-                                    <p class="text-xs text-gray-500">Justificación de cita externa</p>
-                                </div>
-                            </div>
-                            <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
+                            <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center text-xl"><i class="ph-fill ph-calendar-check"></i></div><div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Cita Médica Programada</h4><p class="text-xs text-gray-500">Justificación de cita externa</p></div></div><i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
                         </button>
                     </div>
                 </div>
-
                 <div id="iframeContainer" class="w-full h-full bg-white hidden p-1 md:p-4">
                      <iframe id="googleFormFrame" src="" class="w-full h-full border-0 bg-white rounded-lg"></iframe>
                 </div>
-
             </div>
         </div>
     </dialog>
 
     <script>
-        // Dropdown Menu
         function toggleDropdown(menuId, caretId) {
             const menu = document.getElementById(menuId);
             const caret = document.getElementById(caretId);
@@ -334,7 +266,6 @@
             caret.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
-        // --- LÓGICA DEL MODAL ---
         const modal = document.getElementById('formModal');
         const iframe = document.getElementById('googleFormFrame');
         const title = document.getElementById('modalTitle');
@@ -342,7 +273,6 @@
         const iframeContainer = document.getElementById('iframeContainer');
         const backButton = document.getElementById('backButton');
 
-        // URLS GENERALES
         const forms = {
             'Incidentes': 'LINK_INCIDENTES',
             'IT': 'LINK_IT',
@@ -351,7 +281,6 @@
             'Inspeccion': 'LINK_INSPECCION'
         };
 
-        // URLS ESPECÍFICAS DE RRHH
         const rrhhForms = {
             'Vacaciones': 'https://docs.google.com/forms/d/e/1FAIpQLSfVlEIwdtuqDWCqu1hgaKO634ZTMTy08sxMwJBal_pFPi5wwA/viewform?usp=header',
             'Requerimientos': 'https://docs.google.com/forms/d/e/1FAIpQLSes3nvOpq2Hj8QHZOIQr0TmEGx4j_RzSSRp-2jiYgwRD3YMUw/viewform?usp=header',
@@ -360,81 +289,55 @@
             'CitaMedica': 'https://docs.google.com/forms/d/e/1FAIpQLSekz7-3L3iEeJzRjVVm0bbNdPXU3mApwlM9dZbwfYCDs4ZI4w/viewform?usp=header'
         };
 
-        // 1. ABRIR EL MODAL
         function openForm(type) {
             modal.showModal();
-            
             if (type === 'RRHH') {
-                // Modo Menú RRHH
                 title.innerText = 'Recursos Humanos - Seleccione Opción';
-                menuContainer.classList.remove('hidden', 'slide-out-left'); // Reset animaciones
+                menuContainer.classList.remove('hidden', 'slide-out-left');
                 menuContainer.classList.add('flex', 'slide-in-right');
-                
                 iframeContainer.classList.add('hidden');
                 backButton.classList.add('hidden');
-                iframe.src = ""; // Limpiar iframe por si acaso
-                
+                iframe.src = "";
             } else {
-                // Modo Directo (Otros formularios)
                 title.innerText = 'Solicitud: ' + type;
                 menuContainer.classList.add('hidden');
                 menuContainer.classList.remove('flex');
-                
                 iframeContainer.classList.remove('hidden');
                 backButton.classList.add('hidden');
-                
-                // Cargar URL (Descomenta y pon tus links reales arriba)
-               iframe.src = forms[type]; 
+                iframe.src = forms[type]; 
             }
         }
 
-        // 2. CARGAR UN SUB-FORMULARIO DE RRHH (Con Transición)
         function loadRRHHForm(subType) {
-            // Animación de salida del menú
             menuContainer.classList.remove('slide-in-right');
             menuContainer.classList.add('slide-out-left');
-            
-            // Esperar a que termine la animación (300ms)
             setTimeout(() => {
                 menuContainer.classList.add('hidden');
                 menuContainer.classList.remove('flex');
-                
-                // Mostrar Iframe con animación de entrada
                 iframeContainer.classList.remove('hidden');
-                iframeContainer.classList.add('slide-in-right'); // Reusamos la animación de entrada
-                
-                // Configurar iframe y título
+                iframeContainer.classList.add('slide-in-right');
                 title.innerText = 'RRHH: ' + subType;
-                backButton.classList.remove('hidden'); // Mostrar botón volver
-                
-                // Cargar la URL específica
-               iframe.src = rrhhForms[subType];
-                
+                backButton.classList.remove('hidden');
+                iframe.src = rrhhForms[subType];
             }, 300);
         }
 
-        // 3. VOLVER AL MENÚ (Botón Atrás)
         function backToMenu() {
             iframeContainer.classList.add('hidden');
-            
             menuContainer.classList.remove('hidden', 'slide-out-left');
             menuContainer.classList.add('flex', 'slide-in-right');
-            
             title.innerText = 'Recursos Humanos - Seleccione Opción';
             backButton.classList.add('hidden');
-            iframe.src = ""; // Limpiar para ahorrar memoria
+            iframe.src = "";
         }
 
-        // 4. CERRAR MODAL
         function closeModal() {
             modal.close();
             iframe.src = '';
-            // Resetear clases de animación
             menuContainer.classList.remove('slide-out-left', 'slide-in-right');
             iframeContainer.classList.remove('slide-in-right');
         }
         
-        // Cerrar al hacer click fuera
         modal.addEventListener('click', (e) => {
             const rect = modal.getBoundingClientRect();
             if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
