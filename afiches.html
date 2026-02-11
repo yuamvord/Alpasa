@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afiche Informativo - ALPASA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        alpasa: {
+                            blue: '#0F2C55', 
+                            green: '#4CAF50',
+                            light: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animación suave de entrada */
+        .fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm px-4 py-3 sticky top-0 z-30 flex items-center justify-between border-b border-gray-100">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="p-2 text-alpasa-blue hover:bg-gray-100 rounded-full transition duration-300 group" title="Volver al Inicio">
+                <i class="ph ph-arrow-left text-2xl group-hover:-translate-x-1 transition-transform"></i>
+            </a>
+            <img src="img/Alpasa-Logo.png" alt="Logo Alpasa" class="h-10 w-auto">
+        </div>
+        <h1 class="text-lg font-bold text-alpasa-blue hidden md:block uppercase tracking-wider">Afiche Informativo</h1>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-4 md:p-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-gray-100 to-gray-200">
+        
+        <div class="relative w-full max-w-3xl fade-in-up delay-100">
+            
+            <div class="absolute -inset-1 bg-gradient-to-r from-alpasa-blue/20 to-alpasa-green/20 rounded-[2rem] blur-xl opacity-70 -z-10"></div>
+
+            <div class="bg-white rounded-[1.5rem] p-3 md:p-5 shadow-2xl border border-white/50 backdrop-blur-sm relative">
+                
+                <div class="text-center mb-4">
+                    <span class="bg-alpasa-blue/10 text-alpasa-blue text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Comunicado Oficial</span>
+                </div>
+                
+                <div class="rounded-2xl overflow-hidden shadow-inner bg-gray-100 relative min-h-[300px] md:min-h-[500px]">
+                    <div class="absolute inset-0 flex items-center justify-center text-gray-300 animate-pulse z-0">
+                        <i class="ph ph-image text-6xl"></i>
+                    </div>
+
+                    <img src="https://drive.google.com/thumbnail?id=1I52qzVp_dbfiMb2_G-Ud37ywsVybgezw&sz=w1000" 
+                         alt="Afiche Informativo ALPASA" 
+                         class="w-full h-auto object-contain relative z-10 transition-opacity duration-500 opacity-0 onload-opacity"
+                         onload="this.classList.remove('opacity-0')">
+                </div>
+                
+                <div class="mt-4 flex items-center justify-center gap-2 text-xs text-gray-400 italic">
+                    <i class="ph-fill ph-cloud-check text-alpasa-green"></i>
+                    <p>Documento actualizado automáticamente desde la nube.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-4 text-center text-[10px] text-gray-500 bg-white border-t border-gray-100">
+        &copy; 2026 ALPASA Guatemala - Comunicación Interna
+    </footer>
+
+</body>
+</html>

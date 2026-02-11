@@ -1,387 +1,661 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Organigrama Interactivo ALPASA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        alpasa: {
-                            blue: '#0F2C55', 
-                            green: '#4CAF50',
-                            orange: '#F59E0B', // Nuevo color para Staff/Asesores
-                            light: '#F0F4F8'
-                        }
-                    },
-                    cursor: {
-                        'grab': 'grab',
-                        'grabbing': 'grabbing',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              alpasa: {
+                blue: "#0F2C55",
+                green: "#4CAF50",
+                orange: "#F59E0B",
+                light: "#F0F4F8",
+              },
+            },
+            cursor: {
+              grab: "grab",
+              grabbing: "grabbing",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        /* --- ESTILOS DEL ÁRBOL --- */
-        .tree {
-            transform-origin: top center;
-            transition: transform 0.2s ease-out;
-            display: inline-block;
-            min-width: 100%;
-            padding-bottom: 100px;
-        }
+      /* --- ESTILOS DEL ÁRBOL --- */
+      .tree {
+        transform-origin: top center;
+        transition: transform 0.2s ease-out;
+        display: inline-block;
+        min-width: 100%;
+        padding-bottom: 100px;
+      }
 
-        .tree ul {
-            padding-top: 20px; 
-            position: relative;
-            display: flex; 
-            justify-content: center;
-            transition: all 0.5s ease-in-out;
-            transform-origin: top center;
-            opacity: 1;
-            transform: scaleY(1);
-            max-height: 2000px;
-            overflow: visible;
-        }
+      .tree ul {
+        padding-top: 20px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        transition: all 0.5s ease-in-out;
+        transform-origin: top center;
+        opacity: 1;
+        transform: scaleY(1);
+        max-height: 2000px;
+        overflow: visible;
+      }
 
-        .tree ul.collapsed {
-            opacity: 0;
-            transform: scaleY(0);
-            max-height: 0;
-            padding-top: 0;
-            overflow: hidden;
-        }
+      .tree ul.collapsed {
+        opacity: 0;
+        transform: scaleY(0);
+        max-height: 0;
+        padding-top: 0;
+        overflow: hidden;
+      }
 
-        .tree li {
-            float: left; text-align: center;
-            list-style-type: none;
-            position: relative;
-            padding: 20px 5px 0 5px;
-            transition: all 0.5s;
-        }
+      .tree li {
+        float: left;
+        text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: 20px 5px 0 5px;
+        transition: all 0.5s;
+      }
 
-        /* Líneas conectoras */
-        .tree li::before, .tree li::after {
-            content: ''; position: absolute; top: 0; right: 50%;
-            border-top: 2px solid #ccc; width: 50%; height: 20px;
-            transition: all 0.5s;
-        }
-        .tree li::after { right: auto; left: 50%; border-left: 2px solid #ccc; }
-        .tree li:only-child::after, .tree li:only-child::before { display: none; }
-        .tree li:only-child { padding-top: 0; }
-        .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
-        .tree li:last-child::before{ border-right: 2px solid #ccc; border-radius: 0 5px 0 0; }
-        .tree li:first-child::after{ border-radius: 5px 0 0 0; }
-        
-        .tree ul::before {
-            content: ''; position: absolute; top: 0; left: 50%;
-            border-left: 2px solid #ccc; width: 0; height: 20px;
-            transition: all 0.5s;
-        }
+      /* Líneas conectoras */
+      .tree li::before,
+      .tree li::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 50%;
+        border-top: 2px solid #ccc;
+        width: 50%;
+        height: 20px;
+        transition: all 0.5s;
+      }
+      .tree li::after {
+        right: auto;
+        left: 50%;
+        border-left: 2px solid #ccc;
+      }
 
-        .tree ul.collapsed::before { display: none; }
+      /* Eliminar conectores para el nodo raíz */
+      .tree > ul > li::before,
+      .tree > ul > li::after {
+        display: none;
+      }
 
-        /* --- NODOS --- */
-        .node {
-            display: inline-block; padding: 10px 15px;
-            text-decoration: none; color: #333; font-size: 11px;
-            background: white; border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: relative; z-index: 10;
-            min-width: 130px; 
-            border-top: 4px solid #94a3b8;
-            user-select: none;
-            cursor: pointer;
-            transition: all 0.3s;
+      .tree li:only-child::after,
+      .tree li:only-child::before {
+        display: none;
+      }
+      .tree li:only-child {
+        padding-top: 0;
+      }
+      .tree li:first-child::before,
+      .tree li:last-child::after {
+        border: 0 none;
+      }
+      .tree li:last-child::before {
+        border-right: 2px solid #ccc;
+        border-radius: 0 5px 0 0;
+      }
+      .tree li:first-child::after {
+        border-radius: 5px 0 0 0;
+      }
+
+      .tree ul::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #ccc;
+        width: 0;
+        height: 20px;
+        transition: all 0.5s;
+      }
+
+      .tree ul.collapsed::before {
+        display: none;
+      }
+
+      /* --- CLASES PARA ESCALÓN VISUAL (Step Down) --- */
+      .bajar-muy-poco { 
+          padding-top: 40px !important; 
+      }
+      .bajar-muy-poco::before, 
+      .bajar-muy-poco::after { 
+          height: 40px !important; 
+      }
+
+      /* Nivel 1: Baja un poco (60px total) */
+      
+      .bajar-poco { 
+          padding-top: 100px !important; 
+      }
+      .bajar-poco::before, 
+      .bajar-poco::after { 
+          height: 100px !important; 
+      }
+
+      /* Nivel 2: Baja medio (100px total) */
+      .bajar-medio { 
+          padding-top: 130px !important; 
+      }
+      .bajar-medio::before, 
+      .bajar-medio::after { 
+          height: 130px !important; 
+      }
+
+      /* Nivel 3: Baja mucho (140px total) */
+      .bajar-mucho { 
+          padding-top: 140px !important; 
+      }
+      .bajar-mucho::before, 
+      .bajar-mucho::after { 
+          height: 140px !important; 
+      }
+
+      /* --- NODOS --- */
+      .node {
+        display: inline-block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        font-size: 11px;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 10;
+        min-width: 130px;
+        border-top: 4px solid #94a3b8;
+        user-select: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .node:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        z-index: 20;
+      }
+
+      .node.has-hidden-children::after {
+        content: "+";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4caf50;
+        color: white;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        animation: bounce 1s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
         }
-        
-        .node:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-            z-index: 20;
+        50% {
+          transform: translateX(-50%) translateY(3px);
         }
+      }
 
-        .node.has-hidden-children::after {
-            content: '+';
-            position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-            background: #4CAF50; color: white;
-            width: 16px; height: 16px; border-radius: 50%;
-            font-size: 12px; line-height: 16px; font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            animation: bounce 1s infinite;
-        }
+      /* COLORES Y NIVELES */
+      .level-1 {
+        border-top-color: #0f2c55;
+        background: #0f2c55;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 12px 20px;
+      }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(3px); }
-        }
+      .staff-special {
+        border-top-color: #f59e0b; /* Naranja */
+        background-color: #fffbeb;
+        font-weight: bold;
+        color: #d97706;
+      }
 
-        /* NIVELES JERARQUICOS Y COLORES */
-        
-        /* Directivos (Azul Oscuro) */
-        .level-1 { 
-            border-top-color: #0F2C55; 
-            background: #0F2C55; 
-            color: white; 
-            font-weight: bold; 
-            font-size: 14px;
-            padding: 12px 20px;
-        }
+      .area-admin {
+        border-top-color: #0f2c55;
+      } /* Azul */
+      .area-ops {
+        border-top-color: #4caf50;
+      } /* Verde */
 
-        /* Staff Especial (Naranja/Ámbar) */
-        .staff-special {
-            border-top-color: #F59E0B; /* Naranja */
-            background-color: #fffbeb; /* Fondo muy suave */
-            font-weight: bold;
-            color: #d97706;
-        }
-
-        /* Áreas Administrativas (Azul Claro) */
-        .area-admin { border-top-color: #0F2C55; }
-        
-        /* Áreas Operativas (Verde) */
-        .area-ops { border-top-color: #4CAF50; }
-
-        #drag-container { cursor: grab; overflow: hidden; }
-        #drag-container.active { cursor: grabbing; }
+      #drag-container {
+        cursor: grab;
+        overflow: hidden;
+      }
+      #drag-container.active {
+        cursor: grabbing;
+      }
     </style>
-</head>
-<body class="bg-gray-50 h-screen flex flex-col overflow-hidden">
+  </head>
+  <body class="bg-gray-50 h-screen flex flex-col overflow-hidden">
+    <div
+      class="bg-white shadow-sm p-4 z-20 flex justify-between items-center relative shrink-0"
+    >
+      <div class="flex items-center gap-4">
+        <img src="img/Alpasa-Logo.png" alt="Logo ALPASA" class="h-10 w-auto" />
+        <div>
+          <h1
+            class="text-xl font-bold text-alpasa-blue uppercase hidden md:block"
+          >
+            Organigrama General
+          </h1>
+          <p class="text-xs text-gray-500">
+            ALPASA - Almacenadora del País, S.A.
+          </p>
+        </div>
+      </div>
 
-    <div class="bg-white shadow-sm p-4 z-20 flex justify-between items-center relative shrink-0">
-        <div class="flex items-center gap-4">
-            <img src="img/Alpasa-Logo.png" alt="Logo ALPASA" class="h-10 w-auto">
-            <div>
-                <h1 class="text-xl font-bold text-alpasa-blue uppercase hidden md:block">Organigrama General</h1>
-                <p class="text-xs text-gray-500">ALPASA - Almacenadora del País, S.A.</p>
-            </div>
+      <div
+        class="hidden lg:flex gap-4 text-[10px] font-bold uppercase text-gray-500"
+      >
+        <div class="flex items-center gap-1">
+          <span class="w-3 h-3 bg-alpasa-blue rounded-full"></span>
+          Administrativo
         </div>
-        
-        <div class="hidden lg:flex gap-4 text-[10px] font-bold uppercase text-gray-500">
-            <div class="flex items-center gap-1"><span class="w-3 h-3 bg-alpasa-blue rounded-full"></span> Administrativo</div>
-            <div class="flex items-center gap-1"><span class="w-3 h-3 bg-alpasa-green rounded-full"></span> Operativo</div>
+        <div class="flex items-center gap-1">
+          <span class="w-3 h-3 bg-alpasa-green rounded-full"></span> Operativo
         </div>
+        <div class="flex items-center gap-1">
+          <span class="w-3 h-3 bg-alpasa-orange rounded-full"></span>
+          Staff/Asesoría
+        </div>
+      </div>
 
-        <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-            <button onclick="expandAll()" class="px-3 py-1 text-xs font-bold text-alpasa-blue hover:bg-white rounded transition">Expandir</button>
-            <div class="w-px h-6 bg-gray-300 mx-1"></div>
-            <button onclick="zoom(-0.1)" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-minus"></i></button>
-            <span class="text-xs font-mono text-gray-500 w-12 text-center" id="zoom-level">100%</span>
-            <button onclick="zoom(0.1)" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-plus"></i></button>
-            <button onclick="resetView()" class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"><i class="ph ph-arrows-out-cardinal"></i></button>
-        </div>
+      <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+        <button
+          onclick="expandAll()"
+          class="px-3 py-1 text-xs font-bold text-alpasa-blue hover:bg-white rounded transition"
+        >
+          Expandir
+        </button>
+        <div class="w-px h-6 bg-gray-300 mx-1"></div>
+        <button
+          onclick="zoom(-0.1)"
+          class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"
+        >
+          <i class="ph ph-minus"></i>
+        </button>
+        <span
+          class="text-xs font-mono text-gray-500 w-12 text-center"
+          id="zoom-level"
+          >100%</span
+        >
+        <button
+          onclick="zoom(0.1)"
+          class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"
+        >
+          <i class="ph ph-plus"></i>
+        </button>
+        <button
+          onclick="resetView()"
+          class="p-2 hover:bg-white rounded shadow-sm text-gray-600 transition"
+        >
+          <i class="ph ph-arrows-out-cardinal"></i>
+        </button>
+      </div>
     </div>
 
     <div id="drag-container" class="flex-1 w-full h-full relative bg-gray-50">
-        <div id="tree-content" class="tree p-20">
+      <div id="tree-content" class="tree p-20">
+        <ul>
+          <li>
+            <div class="flex items-center justify-center gap-6 relative">
+              <div class="node staff-special shadow-md">
+                Asistente<br />Dirección
+              </div>
+              <div class="node level-1 shadow-xl" onclick="toggleNode(this)">
+                DIRECTOR EJECUTIVO
+              </div>
+            </div>
+
             <ul>
-                <li>
-                    <div class="node level-1 shadow-xl" onclick="toggleNode(this)">
-                        DIRECTOR EJECUTIVO
+              <li>
+                <div
+                  class="flex items-center justify-center gap-2 relative pt-4"
+                >
+                  <div
+                    class="node level-1 bg-alpasa-blue shadow-2xl scale-110 z-20 mx-2"
+                    onclick="toggleNode(this)"
+                  >
+                    GERENCIA GENERAL
+                  </div>
+
+                  <div
+                    class="node staff-special shadow-md transform translate-y-2"
+                  >
+                    Asesor Legal
+                  </div>
+                </div>
+
+                <ul>
+                  <li>
+                    <div
+                      class="node area-admin font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Gerencia de<br />Sistemas
                     </div>
-                    
                     <ul>
-                        <li>
-                            <div class="flex items-center justify-center gap-4 md:gap-8 relative pt-4">
-                                
-                                <div class="node staff-special shadow-md">Asistente<br>Dirección</div>
-
-                                <div class="node level-1 bg-alpasa-blue shadow-2xl scale-110 z-20" onclick="toggleNode(this)">
-                                    GERENCIA GENERAL
-                                </div>
-
-                                <div class="node staff-special shadow-md">Asesor Legal</div>
-                            </div>
-
-                            <ul>
-                                <li>
-                                    <div class="node area-admin font-bold" onclick="toggleNode(this)">Gerencia de<br>Sistemas</div>
-                                    <ul>
-                                        <li>
-                                            <div class="node area-admin" onclick="toggleNode(this)">Analista de<br>Sistemas</div>
-                                            <ul><li><div class="node area-admin">Técnico de<br>Sistemas</div></li></ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-admin font-bold" onclick="toggleNode(this)">Gerencia<br>Mercadeo</div>
-                                    <ul><li><div class="node area-admin">Promotor de<br>Mercadeo</div></li></ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-admin font-bold" onclick="toggleNode(this)">Contadora<br>General</div>
-                                    <ul>
-                                        <li>
-                                            <div class="node area-admin" onclick="toggleNode(this)">Encargada<br>Cobros/Compras</div>
-                                            <ul>
-                                                <li>
-                                                    <div class="node area-admin" onclick="toggleNode(this)">Auxiliar<br>Contabilidad</div>
-                                                    <ul><li><div class="node area-admin">Mensajero</div></li></ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-admin font-bold" onclick="toggleNode(this)">Gerencia<br>Administrativa</div>
-                                    <ul>
-                                        <li>
-                                            <div class="node area-admin" onclick="toggleNode(this)">Asistente de<br>RRHH</div>
-                                            <ul>
-                                                <li><div class="node area-admin">Recepción</div></li>
-                                                <li><div class="node area-admin">Conserje</div></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li><div class="node area-admin font-bold">Gerente<br>Sostenibilidad</div></li>
-
-
-                                <li>
-                                    <div class="node area-ops font-bold" onclick="toggleNode(this)">Gerencia<br>Maquila</div>
-                                    <ul>
-                                        <li>
-                                            <div class="node area-ops" onclick="toggleNode(this)">Supervisor<br>Riesgos</div>
-                                            <ul>
-                                                <li>
-                                                    <div class="node area-ops" onclick="toggleNode(this)">Supervisora<br>Maquila</div>
-                                                    <ul>
-                                                        <li><div class="node area-ops">Auxiliar Maquila</div></li>
-                                                        <li><div class="node area-ops">Inspectores</div></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-ops font-bold" onclick="toggleNode(this)">Gerencia<br>Operaciones</div>
-                                    <ul>
-                                        <li>
-                                            <div class="node area-ops" onclick="toggleNode(this)">Jefe Import.<br>y Depósitos</div>
-                                            <ul><li><div class="node area-ops">Auxiliar Imp.</div></li></ul>
-                                        </li>
-                                        <li>
-                                            <div class="node area-ops" onclick="toggleNode(this)">Jefe de<br>Operaciones</div>
-                                            <ul>
-                                                <li>
-                                                    <div class="node area-ops" onclick="toggleNode(this)">Supervisor<br>Operaciones</div>
-                                                    <ul>
-                                                        <li><div class="node area-ops text-[10px]">Auxiliares Operaciones<br>(Montacarguistas)</div></li>
-                                                        <li><div class="node area-ops">Aux. Admin.</div></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-ops font-bold" onclick="toggleNode(this)">Jefe de<br>Proyectos</div>
-                                    <ul>
-                                        <li><div class="node area-ops">Auxiliar Proy.</div></li>
-                                        <li><div class="node area-ops">Guardián</div></li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-ops font-bold" onclick="toggleNode(this)">Jefe Taller y<br>Mantenimiento</div>
-                                    <ul><li><div class="node area-ops">Técnico Taller</div></li></ul>
-                                </li>
-
-                                <li>
-                                    <div class="node area-ops font-bold" onclick="toggleNode(this)">Jefe Invent.<br>y Cobros</div>
-                                    <ul>
-                                        <li><div class="node area-ops">Asistente de<br>Inventarios</div></li>
-                                        <li><div class="node area-ops">Digitador</div></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
+                      <li>
+                        <div class="node area-admin">
+                          Analista de<br />Sistemas
+                        </div>
+                      </li>
+                      <li class="bajar-medio">
+                        <div class="node area-admin">
+                          Técnico de<br />Sistemas
+                        </div>
+                      </li>
                     </ul>
+                  </li>
+
+                  <li>
+                    <div
+                      class="node area-admin font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Gerencia<br />Mercadeo
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="node area-admin">
+                          Promotor de<br />Mercadeo
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <div
+                      class="node area-admin font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Gerencia<br />Maquila
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="node area-admin" onclick="toggleNode(this)">
+                          Supervisor<br />Riesgos
+                        </div>
+                        <ul>
+                          <li>
+                            <div
+                              class="node area-admin"
+                              onclick="toggleNode(this)"
+                            >
+                              Supervisora<br />Maquila
+                            </div>
+                            <ul>
+                              <li>
+                                <div class="node area-admin">
+                                  Auxiliar Maquila
+                                </div>
+                              </li>
+                              <li>
+                                <div class="node area-admin">Inspectores</div>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  
+                  <li>
+                    <div
+                      class="node area-admin font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Contadora<br />General
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="node area-admin" onclick="toggleNode(this)">
+                          Encargada<br />Cobros/Compras
+                        </div>
+                        <ul>
+                          <li>
+                            <div
+                              class="node area-admin"
+                              onclick="toggleNode(this)"
+                            >
+                              Auxiliar<br />Contabilidad
+                            </div>
+                            <ul>
+                              <li>
+                                <div class="node area-admin">Mensajero</div>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li>
+                    <div
+                      class="node area-admin font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Gerencia<br />Administrativa
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="node area-admin" onclick="toggleNode(this)">
+                          Asistente de<br />RRHH
+                        </div>
+                        <ul>
+                          <li><div class="node area-admin">Recepción</div></li>
+                          <li class="bajar-medio">
+                            <div class="node area-admin">Conserje</div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <!--Maquila-->
+                  
+
+                  <li>
+                    <div
+                      class="node area-ops font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Gerencia<br />Operaciones
+                    </div>
+                    <ul>
+                      <li class="bajar-muy-poco">
+                        <div
+                          class="node area-ops font-bold"
+                          onclick="toggleNode(this)"
+                        >
+                          Jefe Import.<br />y Depósitos
+                        </div>
+                        <ul>
+                          <li class="bajar-poco">
+                            <div class="node area-ops">Auxiliar Imp.</div>
+                          </li>
+                        </ul>
+                      </li>
+
+                      <li class="bajar-muy-poco">
+                        <div
+                          class="node area-ops font-bold"
+                          onclick="toggleNode(this)"
+                        >
+                          Jefe de<br />Operaciones
+                        </div>
+                        <ul>
+                          <li>
+                            <div
+                              class="node area-ops"
+                              onclick="toggleNode(this)"
+                            >
+                              Supervisor<br />Operaciones
+                            </div>
+                            <ul>
+                              <li>
+                                <div class="node area-ops text-[10px]">
+                                  Auxiliares Operaciones<br />(Montacarguistas)
+                                </div>
+                              </li>
+                              <li><div class="node area-ops">Aux. Admin.</div></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li class="bajar-mucho">
+                    <div
+                      class="node area-ops font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Jefe de<br />Proyectos
+                    </div>
+                    <ul>
+                      <li><div class="node area-ops">Auxiliar Proy.</div></li>
+                      <li><div class="node area-ops">Guardián</div></li>
+                    </ul>
+                  </li>
+
+                  <li class="bajar-mucho">
+                    <div
+                      class="node area-ops font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Jefe Taller y<br />Mantenimiento
+                    </div>
+                    <ul>
+                      <li><div class="node area-ops">Técnico Taller</div></li>
+                    </ul>
+                  </li>
+
+                  <li class="bajar-mucho">
+                    <div
+                      class="node area-ops font-bold"
+                      onclick="toggleNode(this)"
+                    >
+                      Jefe Invent.<br />y Cobros
+                    </div>
+                    <ul>
+                      <li>
+                        <div class="node area-ops" onclick="toggleNode(this)">
+                          Asistente de<br />Inventarios
+                        </div>
+                        <ul>
+                          <li>
+                            <div class="node area-ops">Digitadores</div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
                 </li>
             </ul>
-        </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <script>
-        // Lógica Colapsar
-        function toggleNode(element) {
-            // Buscamos el elemento li más cercano hacia arriba
-            const parentLi = element.closest('li');
-            // Dentro de ese li, buscamos el ul directo (los hijos)
-            const nextUl = parentLi.querySelector('ul');
-            
-            if (nextUl) {
-                nextUl.classList.toggle('collapsed');
-                element.classList.toggle('has-hidden-children');
-            }
+      function toggleNode(element) {
+        const parentLi = element.closest("li");
+        const nextUl = parentLi.querySelector("ul");
+        if (nextUl) {
+          nextUl.classList.toggle("collapsed");
+          element.classList.toggle("has-hidden-children");
         }
+      }
 
-        function expandAll() {
-            document.querySelectorAll('.tree ul').forEach(ul => ul.classList.remove('collapsed'));
-            document.querySelectorAll('.node').forEach(node => node.classList.remove('has-hidden-children'));
-        }
+      function expandAll() {
+        document
+          .querySelectorAll(".tree ul")
+          .forEach((ul) => ul.classList.remove("collapsed"));
+        document
+          .querySelectorAll(".node")
+          .forEach((node) => node.classList.remove("has-hidden-children"));
+      }
 
-        // Lógica Zoom & Drag
-        const slider = document.getElementById('drag-container');
-        const content = document.getElementById('tree-content');
-        let isDown = false;
-        let startX, startY, scrollLeft, scrollTop;
+      const slider = document.getElementById("drag-container");
+      const content = document.getElementById("tree-content");
+      let isDown = false;
+      let startX, startY, scrollLeft, scrollTop;
 
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            startX = e.pageX - slider.offsetLeft;
-            startY = e.pageY - slider.offsetTop;
-            scrollLeft = slider.scrollLeft;
-            scrollTop = slider.scrollTop;
-        });
-        slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
-        slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const y = e.pageY - slider.offsetTop;
-            const walkX = (x - startX) * 1; 
-            const walkY = (y - startY) * 1;
-            slider.scrollLeft = scrollLeft - walkX;
-            slider.scrollTop = scrollTop - walkY;
-        });
+      slider.addEventListener("mousedown", (e) => {
+        isDown = true;
+        slider.classList.add("active");
+        startX = e.pageX - slider.offsetLeft;
+        startY = e.pageY - slider.offsetTop;
+        scrollLeft = slider.scrollLeft;
+        scrollTop = slider.scrollTop;
+      });
+      slider.addEventListener("mouseleave", () => {
+        isDown = false;
+        slider.classList.remove("active");
+      });
+      slider.addEventListener("mouseup", () => {
+        isDown = false;
+        slider.classList.remove("active");
+      });
+      slider.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const y = e.pageY - slider.offsetTop;
+        const walkX = (x - startX) * 1;
+        const walkY = (y - startY) * 1;
+        slider.scrollLeft = scrollLeft - walkX;
+        slider.scrollTop = scrollTop - walkY;
+      });
 
-        let scale = 1;
-        function zoom(direction) {
-            scale += direction;
-            if (scale < 0.2) scale = 0.2;
-            if (scale > 2) scale = 2;
-            applyTransform();
-        }
-        function resetView() {
-            scale = 1;
-            applyTransform();
-            // Centrar scroll (aproximado)
-            slider.scrollLeft = (content.scrollWidth - slider.clientWidth) / 2;
-            slider.scrollTop = 0;
-            expandAll();
-        }
-        function applyTransform() {
-            content.style.transform = `scale(${scale})`;
-            document.getElementById('zoom-level').innerText = Math.round(scale * 100) + '%';
-            if(scale < 1) content.style.width = `${100 / scale}%`;
-            else content.style.width = 'auto';
-        }
-        window.onload = function() { resetView(); }
+      let scale = 1;
+      function zoom(direction) {
+        scale += direction;
+        if (scale < 0.2) scale = 0.2;
+        if (scale > 2) scale = 2;
+        applyTransform();
+      }
+      function resetView() {
+        scale = 1;
+        applyTransform();
+        slider.scrollLeft = (content.scrollWidth - slider.clientWidth) / 2;
+        slider.scrollTop = 0;
+        expandAll();
+      }
+      function applyTransform() {
+        content.style.transform = `scale(${scale})`;
+        document.getElementById("zoom-level").innerText =
+          Math.round(scale * 100) + "%";
+        if (scale < 1) content.style.width = `${100 / scale}%`;
+        else content.style.width = "auto";
+      }
+      window.onload = function () {
+        resetView();
+      };
     </script>
-</body>
+  </body>
 </html>
