@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -90,6 +90,13 @@
         display: none;
       }
 
+      .tree li.bajar-poco:only-child::before {
+        display: block !important;
+        height: 130px !important; /* Misma altura que definiste en bajar-poco */
+        top: -5px;
+        left: 2px;
+      }
+
       .tree li:only-child::after,
       .tree li:only-child::before {
         display: none;
@@ -125,40 +132,40 @@
       }
 
       /* --- CLASES PARA ESCALÓN VISUAL (Step Down) --- */
-      .bajar-muy-poco { 
-          padding-top: 40px !important; 
+      .bajar-muy-poco {
+        padding-top: 40px !important;
       }
-      .bajar-muy-poco::before, 
-      .bajar-muy-poco::after { 
-          height: 40px !important; 
+      .bajar-muy-poco::before,
+      .bajar-muy-poco::after {
+        height: 40px !important;
       }
 
       /* Nivel 1: Baja un poco (60px total) */
-      
-      .bajar-poco { 
-          padding-top: 100px !important; 
+
+      .bajar-poco {
+        padding-top: 100px !important;
       }
-      .bajar-poco::before, 
-      .bajar-poco::after { 
-          height: 100px !important; 
+      .bajar-poco::before,
+      .bajar-poco::after {
+        height: 100px !important;
       }
 
       /* Nivel 2: Baja medio (100px total) */
-      .bajar-medio { 
-          padding-top: 130px !important; 
+      .bajar-medio {
+        padding-top: 130px !important;
       }
-      .bajar-medio::before, 
-      .bajar-medio::after { 
-          height: 130px !important; 
+      .bajar-medio::before,
+      .bajar-medio::after {
+        height: 130px !important;
       }
 
       /* Nivel 3: Baja mucho (140px total) */
-      .bajar-mucho { 
-          padding-top: 140px !important; 
+      .bajar-mucho {
+        padding-top: 140px !important;
       }
-      .bajar-mucho::before, 
-      .bajar-mucho::after { 
-          height: 140px !important; 
+      .bajar-mucho::before,
+      .bajar-mucho::after {
+        height: 140px !important;
       }
 
       /* --- NODOS --- */
@@ -420,7 +427,7 @@
                       </li>
                     </ul>
                   </li>
-                  
+
                   <li>
                     <div
                       class="node area-admin font-bold"
@@ -475,7 +482,6 @@
                   </li>
 
                   <!--Maquila-->
-                  
 
                   <li>
                     <div
@@ -520,7 +526,9 @@
                                   Auxiliares Operaciones<br />(Montacarguistas)
                                 </div>
                               </li>
-                              <li><div class="node area-ops">Aux. Admin.</div></li>
+                              <li>
+                                <div class="node area-ops">Aux. Admin.</div>
+                              </li>
                             </ul>
                           </li>
                         </ul>
@@ -574,7 +582,7 @@
                     </ul>
                   </li>
                 </ul>
-                </li>
+              </li>
             </ul>
           </li>
         </ul>
