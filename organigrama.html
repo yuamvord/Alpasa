@@ -14,6 +14,7 @@
               alpasa: {
                 blue: "#0F2C55",
                 green: "#4CAF50",
+                darkgreen: "#1B4332",
                 orange: "#F59E0B",
                 light: "#F0F4F8",
               },
@@ -132,6 +133,15 @@
       }
 
       /* --- CLASES PARA ESCALÓN VISUAL (Step Down) --- */
+      .bajar-minimo {
+        padding-top: 10px !important;
+      }
+      .bajar-minimo::before,
+      .bajar-minimo::after {
+        height: 10px !important;
+      }
+
+
       .bajar-muy-poco {
         padding-top: 40px !important;
       }
@@ -152,11 +162,11 @@
 
       /* Nivel 2: Baja medio (100px total) */
       .bajar-medio {
-        padding-top: 130px !important;
+        padding-top: 100px !important;
       }
       .bajar-medio::before,
       .bajar-medio::after {
-        height: 130px !important;
+        height: 100px !important;
       }
 
       /* Nivel 3: Baja mucho (140px total) */
@@ -168,6 +178,13 @@
         height: 140px !important;
       }
 
+      .bajar-muchisimo {
+        padding-top: 175px !important;
+      }
+      .bajar-muchisimo::before,
+      .bajar-muchisimo::after {
+        height: 175px !important;
+      }
       /* --- NODOS --- */
       .node {
         display: inline-block;
@@ -222,6 +239,18 @@
       }
 
       /* COLORES Y NIVELES */
+      .level-0 {
+        background: #1B4332 !important; /* Fondo verde oscuro sólido */
+        color: white !important; /* Texto blanco */
+        border: none !important; /* Sin borde superior de color */
+        font-weight: 800; /* Negrita extra */
+        font-size: 18px; /* Letra más grande */
+        padding: 20px 40px; /* Nodo más grande */
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* Sombra más pronunciada */
+        margin-bottom: 40px; /* Separación extra del nivel inferior */
+        border-radius: 8px; /* Bordes un poco más redondeados */
+      }
+      
       .level-1 {
         border-top-color: #0f2c55;
         background: #0f2c55;
@@ -282,10 +311,6 @@
         <div class="flex items-center gap-1">
           <span class="w-3 h-3 bg-alpasa-green rounded-full"></span> Operativo
         </div>
-        <div class="flex items-center gap-1">
-          <span class="w-3 h-3 bg-alpasa-orange rounded-full"></span>
-          Staff/Asesoría
-        </div>
       </div>
 
       <div class="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
@@ -326,6 +351,9 @@
       <div id="tree-content" class="tree p-20">
         <ul>
           <li>
+            <div class="node level-0" onclick="toggleNode(this)">
+                CONSEJO ADMINISTRATIVO
+            </div>
             <div class="flex items-center justify-center gap-6 relative">
               <div class="node staff-special shadow-md">
                 Asistente<br />Dirección
@@ -383,7 +411,7 @@
                     >
                       Gerencia<br />Mercadeo
                     </div>
-                    <ul>
+                    <ul class="bajar-muchisimo">
                       <li>
                         <div class="node area-admin">
                           Promotor de<br />Mercadeo
@@ -399,7 +427,7 @@
                     >
                       Gerencia<br />Maquila
                     </div>
-                    <ul>
+                    <ul class="bajar-medio">
                       <li>
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Supervisor<br />Riesgos
@@ -435,12 +463,12 @@
                     >
                       Contadora<br />General
                     </div>
-                    <ul>
+                    <ul class="bajar-medio">
                       <li>
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Encargada<br />Cobros/Compras
                         </div>
-                        <ul>
+                        <ul class="bajar-medio">
                           <li>
                             <div
                               class="node area-admin"
@@ -448,7 +476,7 @@
                             >
                               Auxiliar<br />Contabilidad
                             </div>
-                            <ul>
+                            <ul class="bajar-muy-poco">
                               <li>
                                 <div class="node area-admin">Mensajero</div>
                               </li>
@@ -466,14 +494,14 @@
                     >
                       Gerencia<br />Administrativa
                     </div>
-                    <ul>
+                    <ul class="bajar-medio">
                       <li>
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Asistente de<br />RRHH
                         </div>
                         <ul>
-                          <li><div class="node area-admin">Recepción</div></li>
-                          <li class="bajar-medio">
+                          <li class="bajar-poco"><div class="node area-admin">Recepción</div></li>
+                          <li class="bajar-mucho">
                             <div class="node area-admin">Conserje</div>
                           </li>
                         </ul>
@@ -491,7 +519,7 @@
                       Gerencia<br />Operaciones
                     </div>
                     <ul>
-                      <li class="bajar-muy-poco">
+                      <li class="bajar-minimo">
                         <div
                           class="node area-ops font-bold"
                           onclick="toggleNode(this)"
@@ -505,7 +533,7 @@
                         </ul>
                       </li>
 
-                      <li class="bajar-muy-poco">
+                      <li class="bajar-minimo">
                         <div
                           class="node area-ops font-bold"
                           onclick="toggleNode(this)"
@@ -536,39 +564,39 @@
                     </ul>
                   </li>
 
-                  <li class="bajar-mucho">
+                  <li class="bajar-medio">
                     <div
                       class="node area-ops font-bold"
                       onclick="toggleNode(this)"
                     >
                       Jefe de<br />Proyectos
                     </div>
-                    <ul>
+                    <ul class="bajar-poco">
                       <li><div class="node area-ops">Auxiliar Proy.</div></li>
-                      <li><div class="node area-ops">Guardián</div></li>
+                      <li class="bajar-poco"><div class="node area-ops">Guardián</div></li>
                     </ul>
                   </li>
 
-                  <li class="bajar-mucho">
+                  <li class="bajar-medio">
                     <div
                       class="node area-ops font-bold"
                       onclick="toggleNode(this)"
                     >
                       Jefe Taller y<br />Mantenimiento
                     </div>
-                    <ul>
+                    <ul class="bajar-mucho">
                       <li><div class="node area-ops">Técnico Taller</div></li>
                     </ul>
                   </li>
 
-                  <li class="bajar-mucho">
+                  <li class="bajar-medio">
                     <div
                       class="node area-ops font-bold"
                       onclick="toggleNode(this)"
                     >
                       Jefe Invent.<br />y Cobros
                     </div>
-                    <ul>
+                    <ul class="bajar-mucho">
                       <li>
                         <div class="node area-ops" onclick="toggleNode(this)">
                           Asistente de<br />Inventarios

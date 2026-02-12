@@ -136,7 +136,7 @@
               href="#"
               onclick="openForm('Mantenimiento')"
               class="block py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded px-2 transition"
-              >Solicitud Mant./Seg.</a
+              >Solicitud Proy./Mant.</a
             >
           </div>
         </div>
@@ -315,6 +315,18 @@
                 >Afiches</span
               >
             </a>
+            <a
+              href="seguros.html"
+              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
+            >
+              <i
+                class="ph ph-shield-plus text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
+              ></i>
+              <span
+                class="text-xs font-bold text-alpasa-green underline leading-tight"
+                >Seguro y<br />Upa</span
+              >
+            </a>
           </div>
         </section>
 
@@ -382,10 +394,11 @@
               ></i>
               <span
                 class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight"
-                >Solicitudes a<br />Mantenimiento</span
+                >Solicitudes a<br />Proyectos y Mantenimiento</span
               >
             </button>
-            <button
+            <a href="boletin.html">
+              <button
               class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-orange-400 hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center"
             >
               <div class="relative">
@@ -399,9 +412,11 @@
               </div>
               <span
                 class="text-[10px] font-bold text-orange-500 uppercase text-center leading-tight"
-                >Boleta<br />Diciembre 2025</span
+                >Boletín<br /> Informativo</span
               >
             </button>
+            </a>
+            
           </div>
         </section>
 
@@ -626,7 +641,7 @@
 
       const forms = {
         Incidentes:
-          "https://docs.google.com/forms/d/e/1FAIpQLSeAacayLIn8uKDTsSvVaw5ORga-tKypdjtyNUybJOXGFJivOA/viewform?usp=publish-editor",
+          "https://docs.google.com/forms/d/e/1FAIpQLSeAacayLIn8uKDTsSvVaw5ORga-tKypdjtyNUybJOXGFJivOA/viewform?usp=header",
         Mantenimiento:
           "https://docs.google.com/forms/d/e/1FAIpQLScDUx0XHDEpLyU4OhQl-4-wtjTZP-_hhyNOVEojfY2EDRgQDw/viewform?usp=header",
         Inspeccion:

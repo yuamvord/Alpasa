@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguro y UPA - ALPASA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        alpasa: {
+                            blue: '#0F2C55', 
+                            green: '#4CAF50',
+                            light: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Helvetica', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm px-6 py-4 sticky top-0 z-30 flex items-center justify-between border-b border-gray-200">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="p-2 text-alpasa-blue hover:bg-gray-100 rounded-full transition duration-300 group shadow-sm border border-gray-100" title="Volver al Inicio">
+                <i class="ph ph-arrow-left text-2xl group-hover:-translate-x-1 transition-transform"></i>
+            </a>
+            <img src="img/Alpasa-Logo.png" alt="Logo Alpasa" class="h-10 w-auto">
+        </div>
+        <div class="flex items-center gap-2 text-alpasa-blue">
+            <i class="ph-fill ph-shield-plus text-2xl text-alpasa-green"></i>
+            <h1 class="text-lg font-bold hidden md:block uppercase tracking-wider">Seguro Médico y UPA</h1>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col items-center justify-start p-4 md:p-8 bg-alpasa-light gap-8">
+        
+        <div class="w-full max-w-4xl fade-in-up delay-100">
+            <div class="bg-white rounded-2xl p-4 shadow-xl border-t-4 border-alpasa-green relative">
+                <div class="flex items-center gap-2 mb-4 px-2">
+                    <i class="ph-fill ph-info text-alpasa-green text-xl"></i>
+                    <h2 class="font-bold text-lg text-gray-700">Información General</h2>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
+                    <img src="img/seguro.jpeg" 
+                         alt="Información del Seguro" 
+                         class="w-full h-auto object-contain">
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-4xl fade-in-up delay-200">
+            <div class="bg-white rounded-2xl p-4 shadow-xl border-t-4 border-alpasa-blue relative">
+                
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 px-2 gap-4">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-file-pdf text-red-500 text-xl"></i>
+                        <h2 class="font-bold text-lg text-gray-700">Cooperativa UPA (PDF)</h2>
+                    </div>
+                    
+                    <a href="pdf/guia_upa.pdf" download class="flex items-center gap-2 bg-alpasa-blue hover:bg-blue-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-md w-full md:w-auto justify-center">
+                        <i class="ph ph-download-simple text-lg"></i>
+                        Descargar Documento
+                    </a>
+                </div>
+
+                <div class="rounded-xl overflow-hidden bg-gray-50 border border-gray-200 h-[600px] relative group">
+                    <iframe src="pdf/guia_upa.pdf" class="w-full h-full" type="application/pdf">
+                        <div class="flex flex-col items-center justify-center h-full text-center p-10 text-gray-500">
+                            <i class="ph ph-warning-circle text-4xl mb-2"></i>
+                            <p>Tu navegador no puede mostrar este PDF directamente.</p>
+                            <a href="pdf/guia_upa.pdf" class="text-alpasa-blue underline font-bold mt-2">Descárgalo aquí</a>
+                        </div>
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="p-6 text-center text-[10px] text-gray-400 bg-white border-t border-gray-100">
+        &copy; 2026 ALPASA Guatemala - Recursos Humanos
+    </footer>
+
+</body>
+</html>
