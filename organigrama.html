@@ -95,7 +95,7 @@
         display: block !important;
         height: 130px !important; /* Misma altura que definiste en bajar-poco */
         top: -5px;
-        left: 2px;
+        left: 20px;
       }
 
       .tree li:only-child::after,
@@ -128,26 +128,37 @@
         transition: all 0.5s;
       }
 
+      .tree .aux::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #ccc;
+        width: 0;
+        height: 180px;
+        transition: all 0.5s;
+      }
+
       .tree ul.collapsed::before {
         display: none;
       }
 
       /* --- CLASES PARA ESCALÓN VISUAL (Step Down) --- */
       .bajar-minimo {
-        padding-top: 10px !important;
+        padding-top: 18px !important;
       }
       .bajar-minimo::before,
       .bajar-minimo::after {
-        height: 10px !important;
+        height: 18px !important;
       }
 
 
       .bajar-muy-poco {
-        padding-top: 40px !important;
+        padding-top: 60px !important;
       }
       .bajar-muy-poco::before,
       .bajar-muy-poco::after {
-        height: 40px !important;
+        height: 60px !important;
       }
 
       /* Nivel 1: Baja un poco (60px total) */
@@ -171,19 +182,38 @@
 
       /* Nivel 3: Baja mucho (140px total) */
       .bajar-mucho {
-        padding-top: 140px !important;
+        padding-top: 145px !important;
       }
       .bajar-mucho::before,
       .bajar-mucho::after {
-        height: 140px !important;
+        height: 145px !important;
       }
 
+    
+      .bajar-semi {
+        padding-top: 165px !important;
+      }
+      .bajar-semi::before,
+      .bajar-semi::after {
+        height: 165px !important;
+      }
+
+
       .bajar-muchisimo {
-        padding-top: 175px !important;
+        padding-top: 170px !important;
       }
       .bajar-muchisimo::before,
       .bajar-muchisimo::after {
-        height: 175px !important;
+        height: 170px !important;
+      }
+
+
+      .bajar-demasiado {
+        padding-top: 205px !important;
+      }
+      .bajar-demasiado::before,
+      .bajar-demasiado::after {
+        height: 205px !important;
       }
       /* --- NODOS --- */
       .node {
@@ -352,7 +382,7 @@
         <ul>
           <li>
             <div class="node level-0" onclick="toggleNode(this)">
-                CONSEJO ADMINISTRATIVO
+                CONSEJO DE ADMINISTRACION
             </div>
             <div class="flex items-center justify-center gap-6 relative">
               <div class="node staff-special shadow-md">
@@ -390,13 +420,13 @@
                     >
                       Gerencia de<br />Sistemas
                     </div>
-                    <ul>
+                    <ul class="bajar-mucho">
                       <li>
                         <div class="node area-admin">
                           Analista de<br />Sistemas
                         </div>
                       </li>
-                      <li class="bajar-medio">
+                      <li class="bajar-muy-poco">
                         <div class="node area-admin">
                           Técnico de<br />Sistemas
                         </div>
@@ -411,7 +441,7 @@
                     >
                       Gerencia<br />Mercadeo
                     </div>
-                    <ul class="bajar-muchisimo">
+                    <ul class="bajar-demasiado">
                       <li>
                         <div class="node area-admin">
                           Promotor de<br />Mercadeo
@@ -468,7 +498,7 @@
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Encargada<br />Cobros/Compras
                         </div>
-                        <ul class="bajar-medio">
+                        <ul class="bajar-minimo">
                           <li>
                             <div
                               class="node area-admin"
@@ -476,7 +506,7 @@
                             >
                               Auxiliar<br />Contabilidad
                             </div>
-                            <ul class="bajar-muy-poco">
+                            <ul class="bajar-muchisimo">
                               <li>
                                 <div class="node area-admin">Mensajero</div>
                               </li>
@@ -494,14 +524,14 @@
                     >
                       Gerencia<br />Administrativa
                     </div>
-                    <ul class="bajar-medio">
+                    <ul class="bajar-muchisimo">
                       <li>
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Asistente de<br />RRHH
                         </div>
                         <ul>
                           <li class="bajar-poco"><div class="node area-admin">Recepción</div></li>
-                          <li class="bajar-mucho">
+                          <li class="bajar-semi">
                             <div class="node area-admin">Conserje</div>
                           </li>
                         </ul>
@@ -526,8 +556,8 @@
                         >
                           Jefe Import.<br />y Depósitos
                         </div>
-                        <ul>
-                          <li class="bajar-poco">
+                        <ul class="aux">
+                          <li class="bajar-mucho">
                             <div class="node area-ops">Auxiliar Imp.</div>
                           </li>
                         </ul>
@@ -548,7 +578,7 @@
                             >
                               Supervisor<br />Operaciones
                             </div>
-                            <ul>
+                            <ul class="bajar-muy-poco">
                               <li>
                                 <div class="node area-ops text-[10px]">
                                   Auxiliares Operaciones<br />(Montacarguistas)
@@ -571,9 +601,9 @@
                     >
                       Jefe de<br />Proyectos
                     </div>
-                    <ul class="bajar-poco">
+                    <ul class="bajar-mucho">
                       <li><div class="node area-ops">Auxiliar Proy.</div></li>
-                      <li class="bajar-poco"><div class="node area-ops">Guardián</div></li>
+                      <li class="bajar-muchisimo"><div class="node area-ops">Guardián</div></li>
                     </ul>
                   </li>
 
@@ -584,7 +614,7 @@
                     >
                       Jefe Taller y<br />Mantenimiento
                     </div>
-                    <ul class="bajar-mucho">
+                    <ul class="bajar-semi">
                       <li><div class="node area-ops">Técnico Taller</div></li>
                     </ul>
                   </li>
@@ -596,7 +626,7 @@
                     >
                       Jefe Invent.<br />y Cobros
                     </div>
-                    <ul class="bajar-mucho">
+                    <ul class="bajar-semi">
                       <li>
                         <div class="node area-ops" onclick="toggleNode(this)">
                           Asistente de<br />Inventarios
