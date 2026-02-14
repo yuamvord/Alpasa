@@ -32,312 +32,156 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-
       .fade-in {
         animation: fadeIn 0.3s ease-in-out forwards;
       }
-      .slide-out-left {
-        animation: slideOutLeft 0.3s ease-in-out forwards;
-      }
-      .slide-in-right {
-        animation: slideInRight 0.3s ease-in-out forwards;
-      }
-
       @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      @keyframes slideOutLeft {
-        from {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        to {
-          transform: translateX(-20px);
-          opacity: 0;
-          display: none;
-        }
-      }
-      @keyframes slideInRight {
-        from {
-          transform: translateX(20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
     </style>
   </head>
-  <body
-    class="bg-alpasa-light text-slate-800 font-sans h-screen flex overflow-hidden"
-  >
+  <body class="bg-alpasa-light text-slate-800 font-sans h-screen flex overflow-hidden">
+    
+    <div 
+        id="menu-overlay" 
+        onclick="toggleMenu()" 
+        class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm md:hidden fade-in"
+    ></div>
+
     <aside
-      class="w-72 bg-alpasa-blue text-white flex flex-col shadow-2xl z-20 hidden md:flex shrink-0"
+      id="sidebar"
+      class="w-72 bg-alpasa-blue text-white flex flex-col shadow-2xl z-50 hidden md:flex shrink-0 fixed inset-y-0 left-0 md:relative h-full transition-all duration-300"
     >
+      <div class="absolute top-4 right-4 md:hidden">
+          <button onclick="toggleMenu()" class="text-white text-2xl hover:bg-white/20 rounded-full p-1 transition">
+              <i class="ph ph-x"></i>
+          </button>
+      </div>
+
       <div class="p-6 flex flex-col items-center border-b border-blue-900/50">
         <img
           src="img/Alpasa-Logo.png"
           alt="Logo Alpasa"
           class="h-20 w-auto mb-2 object-contain bg-white rounded-lg p-2"
         />
-        <p
-          class="text-[10px] text-gray-300 uppercase tracking-widest font-semibold mt-2"
-        >
+        <p class="text-[10px] text-gray-300 uppercase tracking-widest font-semibold mt-2">
           Portal Colaboradores
         </p>
       </div>
 
       <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto no-scrollbar">
-        <a
-          href="#"
-          class="flex items-center gap-3 px-4 py-3 bg-white/10 text-white rounded-lg border-l-4 border-alpasa-green transition mb-6"
-        >
+        <a href="#" class="flex items-center gap-3 px-4 py-3 bg-white/10 text-white rounded-lg border-l-4 border-alpasa-green transition mb-6">
           <i class="ph ph-house text-xl"></i>
           <span class="font-medium text-sm">Página Principal</span>
         </a>
 
-        <p class="px-4 text-[10px] font-bold text-gray-400 uppercase mb-2">
-          Solicitudes
-        </p>
+        <p class="px-4 text-[10px] font-bold text-gray-400 uppercase mb-2">Solicitudes</p>
 
         <div>
-          <button
-            onclick="toggleDropdown('solicitudes-menu', 'caret-solicitudes')"
-            class="w-full flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition text-left group"
-          >
+          <button onclick="toggleDropdown('solicitudes-menu', 'caret-solicitudes')" class="w-full flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition text-left group">
             <div class="flex items-center gap-3">
-              <i
-                class="ph ph-folder-user text-xl group-hover:text-alpasa-green transition"
-              ></i>
+              <i class="ph ph-folder-user text-xl group-hover:text-alpasa-green transition"></i>
               <span class="font-medium text-sm">Recursos Humanos</span>
             </div>
-            <i
-              id="caret-solicitudes"
-              class="ph ph-caret-down text-sm transition-transform duration-300"
-            ></i>
+            <i id="caret-solicitudes" class="ph ph-caret-down text-sm transition-transform duration-300"></i>
           </button>
-          <div
-            id="solicitudes-menu"
-            class="hidden pl-11 pr-2 space-y-1 mt-1 bg-black/10 rounded-lg py-2 mb-2"
-          >
-            <a
-              href="#"
-              onclick="openForm('RRHH')"
-              class="block py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded px-2 transition"
-              >Solicitudes a RRHH</a
-            >
-            <a
-              href="#"
-              onclick="openForm('Mantenimiento')"
-              class="block py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded px-2 transition"
-              >Solicitud Proy./Mant.</a
-            >
+          <div id="solicitudes-menu" class="hidden pl-11 pr-2 space-y-1 mt-1 bg-black/10 rounded-lg py-2 mb-2">
+            <a href="#" onclick="openForm('RRHH')" class="block py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded px-2 transition">Solicitudes a RRHH</a>
+            <a href="#" onclick="openForm('Mantenimiento')" class="block py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded px-2 transition">Solicitud Proy./Mant.</a>
           </div>
         </div>
 
-        <a
-          href="#"
-          onclick="openForm('Incidentes')"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-siren text-xl group-hover:text-red-400 transition"
-          ></i>
+        <a href="#" onclick="openForm('Incidentes')" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-siren text-xl group-hover:text-red-400 transition"></i>
           <span class="font-medium text-sm">Reporte de Incidentes</span>
         </a>
-        <a
-          href="#"
-          onclick="openForm('Inspeccion')"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-clipboard-text text-xl group-hover:text-yellow-400 transition"
-          ></i>
+        <a href="#" onclick="openForm('Inspeccion')" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-clipboard-text text-xl group-hover:text-yellow-400 transition"></i>
           <span class="font-medium text-sm">Inspección Instalaciones</span>
         </a>
 
         <div class="h-px bg-blue-900/50 my-4 mx-4"></div>
-        <p class="px-4 text-[10px] font-bold text-gray-400 uppercase mb-2">
-          Información
-        </p>
+        <p class="px-4 text-[10px] font-bold text-gray-400 uppercase mb-2">Información</p>
 
-        <a
-          href="boletin.html"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-newspaper text-xl group-hover:text-blue-300 transition"
-          ></i>
+        <a href="boletin.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-newspaper text-xl group-hover:text-blue-300 transition"></i>
           <span class="font-medium text-sm">Boletín Mensual</span>
         </a>
-        <a
-          href="afiches.html"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-image text-xl group-hover:text-pink-300 transition"
-          ></i>
+        <a href="afiches.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-image text-xl group-hover:text-pink-300 transition"></i>
           <span class="font-medium text-sm">Afiches</span>
         </a>
-        <a
-          href="brigadistas.html"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-first-aid-kit text-xl group-hover:text-red-500 transition"
-          ></i>
-          <span class="font-medium text-sm">Brigada</span>
+        
+        <a href="seguros.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+            <i class="ph ph-shield-plus text-xl group-hover:text-green-400 transition"></i>
+            <span class="font-medium text-sm">Seguro y Upa</span>
         </a>
-        <a
-          href="comites.html"
-          class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group"
-        >
-          <i
-            class="ph ph-users-three text-xl group-hover:text-alpasa-green transition"
-          ></i>
+
+        <a href="comites.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-users-three text-xl group-hover:text-alpasa-green transition"></i>
           <span class="font-medium text-sm">Comités</span>
+        </a>
+        <a href="brigadistas.html" class="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition group">
+          <i class="ph ph-first-aid-kit text-xl group-hover:text-red-500 transition"></i>
+          <span class="font-medium text-sm">Brigada</span>
         </a>
       </nav>
 
-      <div
-        class="p-4 text-center text-[10px] text-gray-500 border-t border-blue-900/50"
-      >
+      <div class="p-4 text-center text-[10px] text-gray-500 border-t border-blue-900/50">
         &copy; 2026 ALPASA Guatemala
       </div>
     </aside>
 
-    <main
-      class="flex-1 flex flex-col h-full overflow-y-auto relative scroll-smooth bg-white"
-    >
-      <header
-        class="bg-white px-6 py-4 shadow-sm sticky top-0 z-30 flex justify-between items-center border-b border-gray-100 md:hidden"
-      >
+    <main class="flex-1 flex flex-col h-full overflow-y-auto relative scroll-smooth bg-white">
+      <header class="bg-white px-6 py-4 shadow-sm sticky top-0 z-30 flex justify-between items-center border-b border-gray-100 md:hidden">
         <h2 class="text-xl font-bold text-alpasa-blue">ALPASA</h2>
-        <button class="text-2xl text-alpasa-blue">
+        <button onclick="toggleMenu()" class="text-2xl text-alpasa-blue p-1 active:bg-gray-100 rounded">
           <i class="ph ph-list"></i>
         </button>
       </header>
 
       <div class="p-6 md:p-12 space-y-12 max-w-7xl mx-auto w-full">
         
-        <section
-          class="w-full shadow-xl rounded-2xl overflow-hidden border border-gray-100"
-        >
-          <img
-            src="img/direccionamiento.png"
-            alt="Direccionamiento Estratégico"
-            class="w-full h-auto object-cover"
-          />
+        <section class="w-full shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+          <img src="img/direccionamiento.png" alt="Direccionamiento Estratégico" class="w-full h-auto object-cover" />
         </section>
 
-        <section
-          class="w-full shadow-xl rounded-2xl overflow-hidden border border-gray-100 mt-6"
-        >
-          <img
-            src="img/valores.png"
-            alt="Nuestros Valores"
-            class="w-full h-auto object-cover"
-          />
-        </section>
+      
 
         <section>
           <div class="flex items-center gap-3 mb-6">
-            <h3 class="text-2xl font-bold text-alpasa-blue">
-              Soy Colaborador de
-            </h3>
+            <h3 class="text-2xl font-bold text-alpasa-blue">Soy Colaborador de</h3>
             <img src="img/Alpasa-Logo.png" class="h-20 w-auto" />
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            <a
-              href="reglamento_interno.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-clipboard-text text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Reglamento Interno<br />ALPASA</span
-              >
+            <a href="reglamento_interno.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-clipboard-text text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Reglamento Interno<br />ALPASA</span>
             </a>
-            <a
-              href="organigrama.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-tree-structure text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Organigrama</span
-              >
+            <a href="organigrama.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-tree-structure text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Organigrama</span>
             </a>
-            <a
-              href="codigo_etica.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-shield-check text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Código de<br />Ética</span
-              >
+            <a href="codigo_etica.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-shield-check text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Código de<br />Ética</span>
             </a>
-            <a
-              href="uso_uniforme.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-t-shirt text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Instructivo uso<br />de uniforme</span
-              >
+            <a href="uso_uniforme.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-t-shirt text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Instructivo uso<br />de uniforme</span>
             </a>
-            <a
-              href="instructivo_prevencion.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-file-search text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Instructivo<br />Prevención</span
-              >
+            <a href="instructivo_prevencion.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-file-search text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Instructivo<br />Prevención</span>
             </a>
-            <a
-              href="afiches.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-images text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Afiches</span
-              >
+            <a href="afiches.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-images text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Afiches</span>
             </a>
-
-            <a
-              href="seguros.html"
-              class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center"
-            >
-              <i
-                class="ph ph-shield-plus text-4xl text-gray-700 group-hover:text-alpasa-blue transition"
-              ></i>
-              <span
-                class="text-xs font-bold text-alpasa-green underline leading-tight"
-                >Seguro y<br />Upa</span
-              >
+            <a href="seguros.html" class="flex flex-col items-center gap-2 p-4 rounded-xl hover:bg-gray-50 transition group text-center">
+              <i class="ph ph-shield-plus text-4xl text-gray-700 group-hover:text-alpasa-blue transition"></i>
+              <span class="text-xs font-bold text-alpasa-green underline leading-tight">Seguro y<br />Upa</span>
             </a>
           </div>
         </section>
@@ -345,303 +189,144 @@
         <hr class="border-gray-100" />
 
         <section class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
-          <h3
-            class="text-2xl font-bold text-alpasa-green text-center uppercase mb-8"
-          >
-            Próximos Eventos y Avisos
-          </h3>
+          <h3 class="text-2xl font-bold text-alpasa-green text-center uppercase mb-8">Próximos Eventos y Avisos</h3>
           <div class="flex flex-col md:flex-row gap-6 justify-center">
-            <div
-              class="flex-1 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300"
-            >
-              <img
-                src="https://drive.google.com/thumbnail?id=1KlY-72wdb6H5qTVYTdGkld0H8CLZiQYW&sz=w1000"
-                alt="Imagen desde Google Drive"
-                class="w-full h-full object-cover"
-              />
+            <div class="flex-1 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300">
+              <img src="https://drive.google.com/thumbnail?id=1KlY-72wdb6H5qTVYTdGkld0H8CLZiQYW&sz=w1000" alt="Imagen desde Google Drive" class="w-full h-full object-cover" />
             </div>
           </div>
-          <p class="text-center text-xs text-gray-400 mt-2 italic">
-            * Esta imagen se actualiza automáticamente desde la nube.
-          </p>
+          <p class="text-center text-xs text-gray-400 mt-2 italic">* Esta imagen se actualiza automáticamente desde la nube.</p>
         </section>
 
         <section>
-          <h3
-            class="text-xl font-bold text-alpasa-green text-center uppercase mb-8"
-          >
-            Formularios de Solicitud a los Departamentos de Apoyo
-          </h3>
+          <h3 class="text-xl font-bold text-alpasa-green text-center uppercase mb-8">Formularios de Solicitud a los Departamentos de Apoyo</h3>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <button
-              onclick="openForm('Incidentes')"
-              class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-red-500 hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center"
-            >
-              <i
-                class="ph-fill ph-siren text-5xl text-red-500 group-hover:scale-110 transition"
-              ></i>
-              <span
-                class="text-[10px] font-bold text-red-600 uppercase text-center leading-tight"
-                >Reporte de<br />Incidentes o<br />Accidentes</span
-              >
+            <button onclick="openForm('Incidentes')" class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-red-500 hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
+              <i class="ph-fill ph-siren text-5xl text-red-500 group-hover:scale-110 transition"></i>
+              <span class="text-[10px] font-bold text-red-600 uppercase text-center leading-tight">Reporte de<br />Incidentes o<br />Accidentes</span>
             </button>
-            <button
-              onclick="openForm('RRHH')"
-              class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center"
-            >
-              <i
-                class="ph-fill ph-users-three text-5xl text-alpasa-blue group-hover:scale-110 transition"
-              ></i>
-              <span
-                class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight"
-                >Solicitudes<br />RRHH</span
-              >
+            <button onclick="openForm('RRHH')" class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
+              <i class="ph-fill ph-users-three text-5xl text-alpasa-blue group-hover:scale-110 transition"></i>
+              <span class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight">Solicitudes<br />RRHH</span>
             </button>
-            <button
-              onclick="openForm('Mantenimiento')"
-              class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center"
-            >
-              <i
-                class="ph-fill ph-wrench text-5xl text-alpasa-blue group-hover:scale-110 transition"
-              ></i>
-              <span
-                class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight"
-                >Solicitudes a<br />Proyectos y Mantenimiento</span
-              >
+            <button onclick="openForm('Mantenimiento')" class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-alpasa-blue hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
+              <i class="ph-fill ph-wrench text-5xl text-alpasa-blue group-hover:scale-110 transition"></i>
+              <span class="text-[10px] font-bold text-alpasa-blue uppercase text-center leading-tight">Solicitudes a<br />Proyectos y Mantenimiento</span>
             </button>
             <a href="boletin.html">
-              <button
-                class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-orange-400 hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center"
-              >
+              <button class="bg-white rounded-xl p-4 shadow-sm border-2 border-transparent hover:border-orange-400 hover:shadow-lg transition flex flex-col items-center gap-3 group h-40 justify-center">
                 <div class="relative">
-                  <i
-                    class="ph-fill ph-envelope-open text-5xl text-orange-400 group-hover:scale-110 transition"
-                  ></i>
-                  <span
-                    class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full"
-                    >1</span
-                  >
+                  <i class="ph-fill ph-envelope-open text-5xl text-orange-400 group-hover:scale-110 transition"></i>
+                  <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">1</span>
                 </div>
-                <span
-                  class="text-[10px] font-bold text-orange-500 uppercase text-center leading-tight"
-                  >Boletín<br />
-                  Informativo</span
-                >
+                <span class="text-[10px] font-bold text-orange-500 uppercase text-center leading-tight">Boletín<br /> Informativo</span>
               </button>
             </a>
           </div>
         </section>
 
-        <section
-          class="w-full shadow-sm rounded-2xl overflow-hidden border border-gray-100 mt-8 mb-4 hover:shadow-md transition duration-300"
-        >
-          <img
-            src="img/epp.jpeg"
-            alt="Banner Informativo"
-            class="w-full h-auto object-cover"
-          />
+        <section class="w-full shadow-sm rounded-2xl overflow-hidden border border-gray-100 mt-8 mb-4 hover:shadow-md transition duration-300">
+          <img src="img/epp.jpeg" alt="Banner Informativo" class="w-full h-auto object-cover" />
         </section>
 
+          <section class="w-full shadow-xl rounded-2xl overflow-hidden border border-gray-100 mt-6">
+          <img src="img/valores.png" alt="Nuestros Valores" class="w-full h-auto object-cover" />
+        </section>
+
+        
         <section class="border-t-4 border-gray-100 pt-10 pb-10 text-center">
-          <h3 class="text-xl font-bold text-alpasa-green uppercase mb-8">
-            Página de la Empresa
-          </h3>
-          <a
-            href="https://www.alpasa.com.gt"
-            target="_blank"
-            class="inline-block hover:scale-105 transition duration-300"
-          >
-            <img
-              src="img/Alpasa-Logo.png"
-              alt="Ir a ALPASA"
-              class="h-24 w-auto object-contain"
-            />
+          <h3 class="text-xl font-bold text-alpasa-green uppercase mb-8">Página de la Empresa</h3>
+          <a href="https://www.alpasa.com.gt" target="_blank" class="inline-block hover:scale-105 transition duration-300">
+            <img src="img/Alpasa-Logo.png" alt="Ir a ALPASA" class="h-24 w-auto object-contain" />
           </a>
         </section>
       </div>
     </main>
 
-    <dialog
-      id="formModal"
-      class="p-0 rounded-xl shadow-2xl backdrop:bg-alpasa-blue/80 w-full md:w-3/4 max-w-5xl h-[90vh] fade-in"
-    >
+    <dialog id="formModal" class="p-0 rounded-xl shadow-2xl backdrop:bg-alpasa-blue/80 w-full md:w-3/4 max-w-5xl h-[90vh] fade-in">
       <div class="flex flex-col h-full bg-white">
-        <div
-          class="bg-alpasa-blue text-white px-6 py-4 flex justify-between items-center shrink-0"
-        >
+        <div class="bg-alpasa-blue text-white px-6 py-4 flex justify-between items-center shrink-0">
           <div class="flex items-center gap-3">
-            <button
-              id="backButton"
-              onclick="backToMenu()"
-              class="hidden hover:bg-white/20 rounded-full p-1 transition"
-              title="Volver al menú"
-            >
+            <button id="backButton" onclick="backToMenu()" class="hidden hover:bg-white/20 rounded-full p-1 transition" title="Volver al menú">
               <i class="ph ph-arrow-left text-xl"></i>
             </button>
             <i class="ph ph-google-logo text-xl"></i>
             <h3 id="modalTitle" class="font-bold text-lg">Formulario</h3>
           </div>
-          <button
-            onclick="closeModal()"
-            class="hover:bg-white/20 rounded-full p-2 transition"
-          >
+          <button onclick="closeModal()" class="hover:bg-white/20 rounded-full p-2 transition">
             <i class="ph ph-x text-xl"></i>
           </button>
         </div>
         <div class="flex-1 bg-gray-50 overflow-hidden relative">
-          <div
-            id="selectionMenu"
-            class="hidden w-full h-full flex-col gap-3 overflow-y-auto p-6 md:p-10"
-          >
-            <p class="text-gray-500 mb-4 font-medium text-sm">
-              Seleccione el tipo de solicitud que desea realizar:
-            </p>
+          <div id="selectionMenu" class="hidden w-full h-full flex-col gap-3 overflow-y-auto p-6 md:p-10">
+            <p class="text-gray-500 mb-4 font-medium text-sm">Seleccione el tipo de solicitud que desea realizar:</p>
             <div class="grid md:grid-cols-2 gap-4">
-              <button
-                onclick="loadRRHHForm('Vacaciones')"
-                class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left"
-              >
+              <button onclick="loadRRHHForm('Vacaciones')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
                 <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 rounded-full bg-blue-50 text-alpasa-blue flex items-center justify-center text-xl"
-                  >
-                    <i class="ph-fill ph-airplane-tilt"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-gray-800 group-hover:text-alpasa-blue transition"
-                    >
-                      Vacaciones
-                    </h4>
-                    <p class="text-xs text-gray-500">
-                      Solicitud / Justificación
-                    </p>
-                  </div>
+                  <div class="w-12 h-12 rounded-full bg-blue-50 text-alpasa-blue flex items-center justify-center text-xl"><i class="ph-fill ph-airplane-tilt"></i></div>
+                  <div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Vacaciones</h4><p class="text-xs text-gray-500">Solicitud / Justificación</p></div>
                 </div>
-                <i
-                  class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"
-                ></i>
+                <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
               </button>
-              <button
-                onclick="loadRRHHForm('Requerimientos')"
-                class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left"
-              >
+              <button onclick="loadRRHHForm('Requerimientos')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
                 <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 rounded-full bg-green-50 text-alpasa-green flex items-center justify-center text-xl"
-                  >
-                    <i class="ph-fill ph-files"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-gray-800 group-hover:text-alpasa-blue transition"
-                    >
-                      Requerimientos
-                    </h4>
-                    <p class="text-xs text-gray-500">
-                      Constancias, cartas, etc.
-                    </p>
-                  </div>
+                  <div class="w-12 h-12 rounded-full bg-green-50 text-alpasa-green flex items-center justify-center text-xl"><i class="ph-fill ph-files"></i></div>
+                  <div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Requerimientos</h4><p class="text-xs text-gray-500">Constancias, cartas, etc.</p></div>
                 </div>
-                <i
-                  class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"
-                ></i>
+                <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
               </button>
-              <button
-                onclick="loadRRHHForm('Consulta')"
-                class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left"
-              >
+              <button onclick="loadRRHHForm('Consulta')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
                 <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-xl"
-                  >
-                    <i class="ph-fill ph-stethoscope"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-gray-800 group-hover:text-alpasa-blue transition"
-                    >
-                      Consulta Médica
-                    </h4>
-                    <p class="text-xs text-gray-500">Doctor de la Empresa</p>
-                  </div>
+                  <div class="w-12 h-12 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-xl"><i class="ph-fill ph-stethoscope"></i></div>
+                  <div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Consulta Médica</h4><p class="text-xs text-gray-500">Doctor de la Empresa</p></div>
                 </div>
-                <i
-                  class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"
-                ></i>
+                <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
               </button>
-              <button
-                onclick="loadRRHHForm('Ausencias')"
-                class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left"
-              >
+              <button onclick="loadRRHHForm('Ausencias')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left">
                 <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-xl"
-                  >
-                    <i class="ph-fill ph-house-line"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-gray-800 group-hover:text-alpasa-blue transition"
-                    >
-                      Ausencias / Reposo
-                    </h4>
-                    <p class="text-xs text-gray-500">Registro por enfermedad</p>
-                  </div>
+                  <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-xl"><i class="ph-fill ph-house-line"></i></div>
+                  <div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Ausencias / Reposo</h4><p class="text-xs text-gray-500">Registro por enfermedad</p></div>
                 </div>
-                <i
-                  class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"
-                ></i>
+                <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
               </button>
-              <button
-                onclick="loadRRHHForm('CitaMedica')"
-                class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left md:col-span-2"
-              >
+              <button onclick="loadRRHHForm('CitaMedica')" class="group flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-alpasa-blue hover:shadow-md transition text-left md:col-span-2">
                 <div class="flex items-center gap-4">
-                  <div
-                    class="w-12 h-12 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center text-xl"
-                  >
-                    <i class="ph-fill ph-calendar-check"></i>
-                  </div>
-                  <div>
-                    <h4
-                      class="font-bold text-gray-800 group-hover:text-alpasa-blue transition"
-                    >
-                      Cita Médica Programada
-                    </h4>
-                    <p class="text-xs text-gray-500">
-                      Justificación de cita externa
-                    </p>
-                  </div>
+                  <div class="w-12 h-12 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center text-xl"><i class="ph-fill ph-calendar-check"></i></div>
+                  <div><h4 class="font-bold text-gray-800 group-hover:text-alpasa-blue transition">Cita Médica Programada</h4><p class="text-xs text-gray-500">Justificación de cita externa</p></div>
                 </div>
-                <i
-                  class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"
-                ></i>
+                <i class="ph ph-caret-right text-gray-400 group-hover:text-alpasa-blue"></i>
               </button>
             </div>
           </div>
-          <div
-            id="iframeContainer"
-            class="w-full h-full bg-white hidden p-1 md:p-4"
-          >
-            <iframe
-              id="googleFormFrame"
-              src=""
-              class="w-full h-full border-0 bg-white rounded-lg"
-            ></iframe>
+          <div id="iframeContainer" class="w-full h-full bg-white hidden p-1 md:p-4">
+            <iframe id="googleFormFrame" src="" class="w-full h-full border-0 bg-white rounded-lg"></iframe>
           </div>
         </div>
       </div>
     </dialog>
 
     <script>
+      // SCRIPT PARA EL MENÚ MÓVIL
+      function toggleMenu() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("menu-overlay");
+        
+        if (sidebar.classList.contains("hidden")) {
+            // ABRIR
+            sidebar.classList.remove("hidden");
+            overlay.classList.remove("hidden");
+        } else {
+            // CERRAR
+            sidebar.classList.add("hidden");
+            overlay.classList.add("hidden");
+        }
+      }
+
       function toggleDropdown(menuId, caretId) {
         const menu = document.getElementById(menuId);
         const caret = document.getElementById(caretId);
         menu.classList.toggle("hidden");
-        caret.style.transform = menu.classList.contains("hidden")
-          ? "rotate(0deg)"
-          : "rotate(180deg)";
+        caret.style.transform = menu.classList.contains("hidden") ? "rotate(0deg)" : "rotate(180deg)";
       }
 
       const modal = document.getElementById("formModal");
@@ -652,25 +337,17 @@
       const backButton = document.getElementById("backButton");
 
       const forms = {
-        Incidentes:
-          "https://docs.google.com/forms/d/e/1FAIpQLSeAacayLIn8uKDTsSvVaw5ORga-tKypdjtyNUybJOXGFJivOA/viewform?usp=header",
-        Mantenimiento:
-          "https://docs.google.com/forms/d/e/1FAIpQLScDUx0XHDEpLyU4OhQl-4-wtjTZP-_hhyNOVEojfY2EDRgQDw/viewform?usp=header",
-        Inspeccion:
-          "https://docs.google.com/forms/d/e/1FAIpQLScuWPEHP6jDOEYKzuPi-pjuBVEHahsjrlB_XHPa1Bsyv1pPQg/viewform?usp=publish-editor",
+        Incidentes: "https://docs.google.com/forms/d/e/1FAIpQLSeAacayLIn8uKDTsSvVaw5ORga-tKypdjtyNUybJOXGFJivOA/viewform?usp=header",
+        Mantenimiento: "https://docs.google.com/forms/d/e/1FAIpQLScDUx0XHDEpLyU4OhQl-4-wtjTZP-_hhyNOVEojfY2EDRgQDw/viewform?usp=header",
+        Inspeccion: "https://docs.google.com/forms/d/e/1FAIpQLScuWPEHP6jDOEYKzuPi-pjuBVEHahsjrlB_XHPa1Bsyv1pPQg/viewform?usp=publish-editor",
       };
 
       const rrhhForms = {
-        Vacaciones:
-          "https://docs.google.com/forms/d/e/1FAIpQLSfVlEIwdtuqDWCqu1hgaKO634ZTMTy08sxMwJBal_pFPi5wwA/viewform?usp=header",
-        Requerimientos:
-          "https://docs.google.com/forms/d/e/1FAIpQLSes3nvOpq2Hj8QHZOIQr0TmEGx4j_RzSSRp-2jiYgwRD3YMUw/viewform?usp=header",
-        Consulta:
-          "https://docs.google.com/forms/d/e/1FAIpQLSc4CsfPOsGFcXhidCdiHSIqHOr7UCSesv5XH_ZqE4_vBMQhDQ/viewform?usp=header",
-        Ausencias:
-          "https://docs.google.com/forms/d/e/1FAIpQLSed-D4rPWAEqGu5uYY79yzStDKKOd0NsNq6Km6_a0a2Fgbuzg/viewform?usp=header",
-        CitaMedica:
-          "https://docs.google.com/forms/d/e/1FAIpQLSekz7-3L3iEeJzRjVVm0bbNdPXU3mApwlM9dZbwfYCDs4ZI4w/viewform?usp=header",
+        Vacaciones: "https://docs.google.com/forms/d/e/1FAIpQLSfVlEIwdtuqDWCqu1hgaKO634ZTMTy08sxMwJBal_pFPi5wwA/viewform?usp=header",
+        Requerimientos: "https://docs.google.com/forms/d/e/1FAIpQLSes3nvOpq2Hj8QHZOIQr0TmEGx4j_RzSSRp-2jiYgwRD3YMUw/viewform?usp=header",
+        Consulta: "https://docs.google.com/forms/d/e/1FAIpQLSc4CsfPOsGFcXhidCdiHSIqHOr7UCSesv5XH_ZqE4_vBMQhDQ/viewform?usp=header",
+        Ausencias: "https://docs.google.com/forms/d/e/1FAIpQLSed-D4rPWAEqGu5uYY79yzStDKKOd0NsNq6Km6_a0a2Fgbuzg/viewform?usp=header",
+        CitaMedica: "https://docs.google.com/forms/d/e/1FAIpQLSekz7-3L3iEeJzRjVVm0bbNdPXU3mApwlM9dZbwfYCDs4ZI4w/viewform?usp=header",
       };
 
       function openForm(type) {
@@ -724,12 +401,7 @@
 
       modal.addEventListener("click", (e) => {
         const rect = modal.getBoundingClientRect();
-        if (
-          e.clientX < rect.left ||
-          e.clientX > rect.right ||
-          e.clientY < rect.top ||
-          e.clientY > rect.bottom
-        ) {
+        if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
           closeModal();
         }
       });

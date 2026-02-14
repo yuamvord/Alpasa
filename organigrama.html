@@ -152,7 +152,6 @@
         height: 18px !important;
       }
 
-
       .bajar-muy-poco {
         padding-top: 60px !important;
       }
@@ -189,7 +188,6 @@
         height: 145px !important;
       }
 
-    
       .bajar-semi {
         padding-top: 165px !important;
       }
@@ -198,7 +196,6 @@
         height: 165px !important;
       }
 
-
       .bajar-muchisimo {
         padding-top: 170px !important;
       }
@@ -206,7 +203,6 @@
       .bajar-muchisimo::after {
         height: 170px !important;
       }
-
 
       .bajar-demasiado {
         padding-top: 205px !important;
@@ -270,17 +266,17 @@
 
       /* COLORES Y NIVELES */
       .level-0 {
-        background: #1B4332 !important; /* Fondo verde oscuro sólido */
+        background: #1b4332 !important; /* Fondo verde oscuro sólido */
         color: white !important; /* Texto blanco */
         border: none !important; /* Sin borde superior de color */
         font-weight: 800; /* Negrita extra */
         font-size: 18px; /* Letra más grande */
         padding: 20px 40px; /* Nodo más grande */
-        box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* Sombra más pronunciada */
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
         margin-bottom: 40px; /* Separación extra del nivel inferior */
         border-radius: 8px; /* Bordes un poco más redondeados */
       }
-      
+
       .level-1 {
         border-top-color: #0f2c55;
         background: #0f2c55;
@@ -288,6 +284,16 @@
         font-weight: bold;
         font-size: 14px;
         padding: 12px 20px;
+        right: 80px;
+      }
+      .level-1-2 {
+        border-top-color: #0f2c55;
+        background: #0f2c55;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 12px 20px;
+        right: -95px;
       }
 
       .staff-special {
@@ -295,8 +301,16 @@
         background-color: #fffbeb;
         font-weight: bold;
         color: #d97706;
+        right: 150px;
       }
 
+      .staff-special-2 {
+        border-top-color: #f59e0b; /* Naranja */
+        background-color: #fffbeb;
+        font-weight: bold;
+        color: #d97706;
+        right: -130px;
+      }
       .area-admin {
         border-top-color: #0f2c55;
       } /* Azul */
@@ -382,12 +396,14 @@
         <ul>
           <li>
             <div class="node level-0" onclick="toggleNode(this)">
-                CONSEJO DE ADMINISTRACION
+              CONSEJO DE ADMINISTRACION
             </div>
             <div class="flex items-center justify-center gap-6 relative">
-              <div class="node staff-special shadow-md">
-                Asistente<br />Dirección
-              </div>
+               <div
+                    class="node staff-special shadow-md transform translate-y-2"
+                  >
+                    Asistente<br />Dirección
+                  </div>
               <div class="node level-1 shadow-xl" onclick="toggleNode(this)">
                 DIRECTOR EJECUTIVO
               </div>
@@ -396,17 +412,19 @@
             <ul>
               <li>
                 <div
-                  class="flex items-center justify-center gap-2 relative pt-4"
+                  class="flex items-center justify-center gap-16 relative pt-8"
                 >
+                 
+
                   <div
-                    class="node level-1 bg-alpasa-blue shadow-2xl scale-110 z-20 mx-2"
+                    class="node level-1-2 bg-alpasa-blue shadow-2xl scale-110 z-20"
                     onclick="toggleNode(this)"
                   >
                     GERENCIA GENERAL
                   </div>
 
                   <div
-                    class="node staff-special shadow-md transform translate-y-2"
+                    class="node staff-special-2 shadow-md transform translate-y-2"
                   >
                     Asesor Legal
                   </div>
@@ -441,7 +459,7 @@
                     >
                       Gerencia<br />Mercadeo
                     </div>
-                    <ul class="bajar-demasiado">
+                    <ul class="bajar-muchisimo">
                       <li>
                         <div class="node area-admin">
                           Promotor de<br />Mercadeo
@@ -524,13 +542,15 @@
                     >
                       Gerencia<br />Administrativa
                     </div>
-                    <ul class="bajar-muchisimo">
+                    <ul class="bajar-mucho">
                       <li>
                         <div class="node area-admin" onclick="toggleNode(this)">
                           Asistente de<br />RRHH
                         </div>
                         <ul>
-                          <li class="bajar-poco"><div class="node area-admin">Recepción</div></li>
+                          <li class="bajar-poco">
+                            <div class="node area-admin">Recepción</div>
+                          </li>
                           <li class="bajar-semi">
                             <div class="node area-admin">Conserje</div>
                           </li>
@@ -603,7 +623,9 @@
                     </div>
                     <ul class="bajar-mucho">
                       <li><div class="node area-ops">Auxiliar Proy.</div></li>
-                      <li class="bajar-muchisimo"><div class="node area-ops">Guardián</div></li>
+                      <li class="bajar-muchisimo">
+                        <div class="node area-ops">Guardián</div>
+                      </li>
                     </ul>
                   </li>
 
@@ -626,7 +648,7 @@
                     >
                       Jefe Invent.<br />y Cobros
                     </div>
-                    <ul class="bajar-semi">
+                    <ul class="bajar-medio">
                       <li>
                         <div class="node area-ops" onclick="toggleNode(this)">
                           Asistente de<br />Inventarios
